@@ -1,4 +1,4 @@
-package com.example.instagram.ui.viewmodal;
+package com.example.instagram.viewmodal;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

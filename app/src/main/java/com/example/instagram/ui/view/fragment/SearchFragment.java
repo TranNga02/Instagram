@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.instagram.R;
 import com.example.instagram.databinding.FragmentSearchBinding;
 import com.example.instagram.ui.view.adapter.UserAdapterSearch;
-import com.example.instagram.ui.viewmodal.SearchViewModel;
+import com.example.instagram.viewmodal.SearchViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
