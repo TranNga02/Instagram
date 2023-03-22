@@ -278,4 +278,9 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="dark">#FF121212</color>
+    <color name="orange">#FF5722</color>
+
 </resources>
