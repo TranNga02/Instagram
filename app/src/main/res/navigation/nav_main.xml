@@ -18,7 +18,11 @@
         android:id="@+id/blogFragment"
         android:name="com.example.instagram.ui.fragment.blog.BlogFragment"
         android:label="fragment_blog"
-        tools:layout="@layout/fragment_blog" />
+        tools:layout="@layout/fragment_blog" >
+        <action
+            android:id="@+id/action_blogFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/postFragment"
         android:name="com.example.instagram.ui.fragment.post.PostFragment"
@@ -31,7 +35,12 @@
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/commentsFragment"
-        android:name="com.example.instagram.CommentsFragment"
+        android:name="com.example.instagram.ui.fragment.feed.CommentsFragment"
         android:label="fragment_comments"
         tools:layout="@layout/fragment_comments" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.instagram.ui.fragment.blog.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting2" />
 </navigation>
