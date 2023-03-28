@@ -1,15 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".ui.fragment.feed.FeedFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="15dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_wordmark"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/btn_notification"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_heart"
+            android:layout_marginHorizontal="20dp"
+            />
+
+        <ImageView
+            android:id="@+id/btn_message"
+            android:layout_width="31dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_message" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_fragment_feed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Feed Fragment"
-        android:textSize="30sp" />
+        />
 
-</FrameLayout>
+</LinearLayout>
