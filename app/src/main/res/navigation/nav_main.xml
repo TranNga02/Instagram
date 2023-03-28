@@ -9,7 +9,11 @@
         android:id="@+id/feedFragment"
         android:name="com.example.instagram.ui.fragment.feed.FeedFragment"
         android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/blogFragment"
         android:name="com.example.instagram.ui.fragment.blog.BlogFragment"
@@ -25,4 +29,9 @@
         android:name="com.example.instagram.ui.fragment.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="com.example.instagram.CommentsFragment"
+        android:label="fragment_comments"
+        tools:layout="@layout/fragment_comments" />
 </navigation>
