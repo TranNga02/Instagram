@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.instagram.repository.PostRepository;
 import com.example.instagram.repository.UserRepository;
 import com.example.instagram.ui.model.PostFeed;
+import com.example.instagram.ui.model.UserProfile;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class FeedViewModel extends ViewModel {
     }
 
     public void getPostOfCurrentUser(){
-        postRepo.getPostOfCurrentUser(new PostRepository.PostsCallback() {
+        postRepo.getPostOfCurrentUser(new PostRepository.PostCallback() {
             @Override
             public void onPostsLoaded(ArrayList<PostFeed> postsList) {
                 posts.setValue(postsList);

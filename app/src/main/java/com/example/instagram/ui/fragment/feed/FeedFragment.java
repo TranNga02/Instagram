@@ -70,29 +70,5 @@ public class FeedFragment extends Fragment {
         });
 
         feedViewModel.getPostOfCurrentUser();
-
-//        String userId = FirebaseAuth.getInstance().getUid();
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("posts")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-////                                if(userId.equals(document.getString("user-id"))){
-//                                    String postId = document.getId();
-//                                    PostFeed post = document.toObject(PostFeed.class); // create a new Post instance using the data from the document
-//                                    postArrayList.add(post); // add the post to the list
-////                                }
-//                            }
-//                            postAdapter.notifyDataSetChanged();
-//                        } else {
-//                            System.out.println("Error getting documents." + task.getException());
-//                        }
-//                    }
-//                });
-
     }
 }

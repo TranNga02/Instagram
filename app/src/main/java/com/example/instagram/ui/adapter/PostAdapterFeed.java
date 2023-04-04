@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.instagram.R;
 import com.example.instagram.ui.model.PostFeed;
+import com.example.instagram.ui.model.UserProfile;
+import com.example.instagram.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
 
@@ -37,16 +39,23 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
     @Override
     public void onBindViewHolder(@NonNull PostAdapterFeed.ViewHolder holder, int position) {
         PostFeed post = postArrayList.get(position);
-        holder.tvDate.setText(post.getTime());
+        UserViewModel userViewModel = new UserViewModel();
+//        UserProfile user = userViewModel.getUserById(post.getUserId());
+
+        holder.tvDate.setText(String.valueOf(post.getNumberofDays()));
         holder.tvLikes.setText(String.valueOf(post.countLikes()));
         holder.tvPostContent.setText(post.getContent());
-
+//        holder.tvUsername.setText(user.getUsername());
 
         Uri imageUri = Uri.parse(post.getSrc().get(0));
-
         Glide.with(holder.itemView.getContext())
                 .load(imageUri)
-                .into(holder.vvPost);
+                .into(holder.ivPost);
+
+//        Uri avatarUri = Uri.parse(user.getAvatar());
+//        Glide.with(holder.itemView.getContext())
+//                .load(avatarUri)
+//                .into(holder.ivUserAvatar);
 //
 //        holder.vvPost.setVideoURI(videoUri);
 //        holder.vvPost.start();
@@ -68,13 +77,13 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView vvPost;
+        public ImageView ivPost;
         public TextView tvDate, tvUsername, tvLikes, tvPostContent;
         public ImageView ivUserAvatar;
 
         public ViewHolder(View view) {
             super(view);
-            vvPost = view.findViewById(R.id.vv_post);
+            ivPost = view.findViewById(R.id.vv_post);
             tvDate = view.findViewById(R.id.tv_date);
             tvUsername = view.findViewById(R.id.tv_username);
             tvLikes = view.findViewById(R.id.tv_likes);
@@ -82,5 +91,4 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
             ivUserAvatar = view.findViewById(R.id.iv_user_avatar);
         }
     }
-
 }

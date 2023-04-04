@@ -57,7 +57,7 @@
             android:layout_height="300dp"
             android:layout_marginTop="10dp"
             />
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,6 @@
                 android:layout_height="30dp"
                 android:src="@drawable/ic_heart"
                 />
-
 
             <ImageView
                 android:id="@+id/btn_comment"
@@ -140,15 +139,28 @@
             android:textSize="18sp"
             android:layout_marginHorizontal="10dp"
             />
-        <TextView
-            android:id="@+id/tv_date"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2 ngay truoc"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:layout_marginHorizontal="10dp"
-            />
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" ngay truoc"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

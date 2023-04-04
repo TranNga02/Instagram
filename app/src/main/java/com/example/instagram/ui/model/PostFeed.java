@@ -1,5 +1,9 @@
 package com.example.instagram.ui.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class PostFeed {
@@ -17,6 +21,32 @@ public class PostFeed {
         this.userId = userId;
         this.likes = likes;
         this.src = src;
+    }
+
+    public long getNumberofDays(){
+        DateTimeFormatter formatter = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss 'GMT'xxx yyyy");
+        }
+        LocalDateTime dt1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            dt1 = LocalDateTime.parse(time, formatter);
+        }
+        LocalDateTime dt2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            dt2 = LocalDateTime.parse(new Date().toString(), formatter);
+        }
+
+        Duration duration = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            duration = Duration.between(dt1, dt2);
+        }
+        long days = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            days = duration.toDays();
+        }
+
+        return days;
     }
 
     public String getContent() {

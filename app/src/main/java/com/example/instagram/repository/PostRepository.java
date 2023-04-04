@@ -16,7 +16,7 @@ import java.util.List;
 
 public class PostRepository {
 
-    public void getPostOfCurrentUser(final PostsCallback callback){
+    public void getPostOfCurrentUser(final PostCallback callback){
         ArrayList<PostFeed> postArrayList = new ArrayList<>();
 //        String userId = FirebaseAuth.getInstance().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -43,7 +43,7 @@ public class PostRepository {
                 });
     }
 
-    public interface PostsCallback {
+    public interface PostCallback {
         void onPostsLoaded(ArrayList<PostFeed> postsList);
     }
 }
