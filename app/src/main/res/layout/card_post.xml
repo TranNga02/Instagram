@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:backgroundTint="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginVertical="10dp">
+        android:layout_marginVertical="10dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_margin="10dp">
+            android:layout_marginHorizontal="10dp">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:cardCornerRadius="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="50dp"
                 android:layout_marginRight="10dp">
 
                 <ImageView
@@ -36,7 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:text="Username"
@@ -51,10 +51,11 @@
 
         </LinearLayout>
 
-        <VideoView
+        <ImageView
             android:id="@+id/vv_post"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_marginTop="10dp"
             />
         
         <LinearLayout
@@ -66,24 +67,24 @@
 
             <ImageView
                 android:id="@+id/btn_like"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_heart"
                 />
 
 
             <ImageView
                 android:id="@+id/btn_comment"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_comment"
                 android:layout_marginHorizontal="20dp"
                 />
 
             <ImageView
                 android:id="@+id/btn_share"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_message"
                 />
 
@@ -96,8 +97,8 @@
 
                 <ImageView
                     android:id="@+id/btn_save_to_collection"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/ic_save_to_collection"
                     />
 
@@ -105,16 +106,30 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_likes"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="100 luot thich"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_marginHorizontal="10dp"
-            />
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" luot thich"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/tv_post_content"
@@ -122,7 +137,16 @@
             android:layout_height="wrap_content"
             android:text="noi dung bai post"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:layout_marginHorizontal="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2 ngay truoc"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             android:layout_marginHorizontal="10dp"
             />
     </LinearLayout>

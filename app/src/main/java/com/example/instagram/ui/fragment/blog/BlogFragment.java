@@ -34,24 +34,6 @@ public class BlogFragment extends Fragment {
         btnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                // Tạo một đối tượng Fragment mới của Fragment mà bạn muốn chuyển đến
-//                SettingFragment newFragment = new SettingFragment();
-//
-//                // Lấy FragmentManager
-//                FragmentManager fragmentManager = getFragmentManager();
-//
-//                // Bắt đầu một transaction Fragment
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//                // Thay thế Fragment hiện tại bằng Fragment mới
-//                fragmentTransaction.replace(R.id.fragmentContainerView, newFragment);
-//
-//                // Đặt Fragment hiện tại vào Back Stack
-//                fragmentTransaction.addToBackStack(null);
-//
-//                // Hoàn thành transaction Fragment
-//                fragmentTransaction.commit();
-
 
                 NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
                 NavOptions navOptions = new NavOptions.Builder()

@@ -30,7 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone number, username or email"
-                android:background="@color/dark"
+                app:hintTextColor="@color/gray"
+                android:background="@null"
                 android:textColorHint="@color/gray"
                 >
 
@@ -39,7 +40,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textColorHint="@color/gray"
+                    android:textSize="18sp"
                     android:background="@drawable/comment_border"
                     />
 
@@ -48,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                app:hintTextColor="@color/gray"
                 android:background="@color/dark"
                 android:textColorHint="@color/gray"
                 app:passwordToggleEnabled="true"
@@ -61,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:background="@drawable/comment_border"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -71,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="Forget password?"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textColor="@color/blue"/>
 
             <Button
@@ -82,13 +85,13 @@
                 android:backgroundTint="@color/blue"
                 android:text="Log in"
                 android:textAllCaps="false"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="OR"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textColor="@color/gray_200"/>
 
             <LinearLayout
@@ -99,8 +102,8 @@
                 android:layout_marginVertical="20dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/ic_facebook"
                     />
                 <TextView
@@ -108,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:text="  Log in with Facebook"
                     />
             </LinearLayout>
@@ -126,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_200"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:text="Don't have an account?"
                 />
 
@@ -136,7 +139,7 @@
                 android:layout_height="match_parent"
                 android:text="  Sign up"
                 android:textColor="@color/blue"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
 
