@@ -20,8 +20,8 @@
             android:background="@drawable/bottom_border"
             android:orientation="horizontal">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_back"/>
 
             <TextView
@@ -29,14 +29,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Comments"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:gravity="center"/>
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_message"/>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
@@ -50,9 +50,9 @@
             android:paddingTop="10dp">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:cardCornerRadius="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="50dp"
                 android:layout_marginRight="10dp">
 
                 <ImageView
@@ -75,8 +75,8 @@
                     android:hint="Add a comment..."
                     android:textColorHint="@color/gray_200"
                     android:textColor="@color/white"
-                    android:padding="10dp"
-                    android:textSize="16sp"
+                    android:padding="15dp"
+                    android:textSize="18sp"
                     android:inputType="textMultiLine"/>
 
                 <TextView
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:text="Post"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textColor="@color/blue_200"
                     android:textStyle="bold"
                     android:padding="10dp" />
