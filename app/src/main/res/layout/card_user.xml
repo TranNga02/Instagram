@@ -13,7 +13,7 @@
             type="com.example.instagram.ui.adapter.UserAdapterSearch" />
 
         <variable name="user"
-            type="com.example.instagram.ui.model.User" />
+            type="com.example.instagram.ui.model.UserProfile" />
     </data>
 
     <LinearLayout
@@ -39,11 +39,11 @@
 
         <TextView
             android:id="@+id/cardUserTxtUserName"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginHorizontal="8dp"
-            android:text="@{user.user_name}"
+            android:text="username"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />

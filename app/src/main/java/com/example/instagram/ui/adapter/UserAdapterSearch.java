@@ -2,60 +2,60 @@ package com.example.instagram.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.instagram.R;
-import com.example.instagram.databinding.CardUserBinding;
-import com.example.instagram.ui.model.User;
-import com.squareup.picasso.Picasso;
+import com.example.instagram.ui.model.UserProfile;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 public class UserAdapterSearch extends RecyclerView.Adapter<UserAdapterSearch.UserViewHolder> {
     private Context context;
-    private List<User> users;
+    private List<UserProfile> users;
+    private FirebaseUser firebaseUser;
 
-    public UserAdapterSearch(Context context, List<User> users) {
+    public UserAdapterSearch(Context context, List<UserProfile> users) {
         this.context = context;
         this.users = users;
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder {
-        public CardUserBinding binding;
-
-        public UserViewHolder(@NonNull CardUserBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        public TextView username;
+        public ShapeableImageView img_profile;
+        public Button btn_follow;
+        public UserViewHolder(@NonNull View itemview) {
+            super(itemview);
+            username = itemview.findViewById(R.id.cardUserTxtUserName);
+            img_profile = itemview.findViewById(R.id.cardUserImgUserPhoto);
         }
     }
-
-//    public void navToUserProfile(View view, int user_id) {
-//        SearchFragmentDirections.SearchToProfile searchToProfile = SearchFragmentDirections.searchToProfile();
-//        searchToProfile.setUserId(user_id);
-//
-//        Navigation.findNavController(view).navigate(searchToProfile);
-//    }
 
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardUserBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.card_user, parent, false);
-        return new UserViewHolder(binding);
+        View view  = LayoutInflater.from(context).inflate(R.layout.card_user,parent,false);
+        return new UserViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User user = users.get(position);
 
-        holder.binding.setUserAdapterSearch(this);
-        holder.binding.setUser(user);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        // load photo
-        Picasso.get().load(user.getUser_photo()).into(holder.binding.cardUserImgUserPhoto);
+        final UserProfile user = users.get(position);
+        holder.username.setText(user.getUsername());
+        Glide.with(context).load(user.getAvatar()).into(holder.img_profile);
+
     }
 
     @Override
