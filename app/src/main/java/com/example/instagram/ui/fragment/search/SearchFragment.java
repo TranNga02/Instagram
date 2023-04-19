@@ -90,6 +90,7 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            users.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 UserProfile user = document.toObject(UserProfile.class);
                                 users.add(user);
