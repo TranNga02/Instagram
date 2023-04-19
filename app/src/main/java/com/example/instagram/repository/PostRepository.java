@@ -32,6 +32,7 @@ public class PostRepository {
 //                                if(userId.equals(document.getString("user-id"))){
 //                                String postId = document.getId();
                                 PostFeed post = document.toObject(PostFeed.class); // create a new Post instance using the data from the document
+                                post.setUserId(document.getString("user-id"));
                                 postArrayList.add(post); // add the post to the list
 //                                }
                             }

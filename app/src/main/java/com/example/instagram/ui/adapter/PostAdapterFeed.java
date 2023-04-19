@@ -2,6 +2,7 @@ package com.example.instagram.ui.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.instagram.R;
+import com.example.instagram.repository.UserRepository;
 import com.example.instagram.ui.model.PostFeed;
 import com.example.instagram.ui.model.UserProfile;
 import com.example.instagram.viewmodel.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHolder>{
     Context context;
@@ -39,23 +47,38 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
     @Override
     public void onBindViewHolder(@NonNull PostAdapterFeed.ViewHolder holder, int position) {
         PostFeed post = postArrayList.get(position);
+        System.out.println("-------------------------------"+post.getUserId());
         UserViewModel userViewModel = new UserViewModel();
-//        UserProfile user = userViewModel.getUserById(post.getUserId());
 
         holder.tvDate.setText(String.valueOf(post.getNumberofDays()));
         holder.tvLikes.setText(String.valueOf(post.countLikes()));
         holder.tvPostContent.setText(post.getContent());
-//        holder.tvUsername.setText(user.getUsername());
-
         Uri imageUri = Uri.parse(post.getSrc().get(0));
         Glide.with(holder.itemView.getContext())
                 .load(imageUri)
                 .into(holder.ivPost);
 
-//        Uri avatarUri = Uri.parse(user.getAvatar());
-//        Glide.with(holder.itemView.getContext())
-//                .load(avatarUri)
-//                .into(holder.ivUserAvatar);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            CompletableFuture<Void> user = getUserById(post.getUserId())
+                    .thenAccept(userPro -> {
+
+                        // Các lệnh đằng sau sẽ được thực hiện sau khi getUserById hoàn thành
+                        holder.tvUsername.setText(userPro.getUsername());
+                        Uri avatarUri = Uri.parse(userPro.getAvatar());
+                        Glide.with(holder.itemView.getContext())
+                                .load(avatarUri)
+                                .into(holder.ivUserAvatar);
+
+                    })
+                    .exceptionally(ex -> {
+                        // Xử lý nếu có lỗi xảy ra trong quá trình getUserById
+                        System.out.println("Error: " + ex.getMessage());
+                        return null;
+                    });
+        }
+
+
+//
 //
 //        holder.vvPost.setVideoURI(videoUri);
 //        holder.vvPost.start();
@@ -69,6 +92,41 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
 //                }
 //            }
 //        });
+    }
+
+    public CompletableFuture<UserProfile> getUserById(String userId) {
+
+        CompletableFuture<UserProfile> completableFuture = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            completableFuture = new CompletableFuture<>();
+        }
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        CompletableFuture<UserProfile> finalCompletableFuture = completableFuture;
+        db.collection("profiles")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        UserProfile user = new UserProfile();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            if (userId != null && userId.equals(document.getId())) {
+                                user = document.toObject(UserProfile.class);
+                            }
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            finalCompletableFuture.complete(user);
+                        }
+                    } else {
+                        System.out.println("Error getting documents." + task.getException());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            finalCompletableFuture.completeExceptionally(task.getException());
+                        }
+                    }
+                });
+
+        return completableFuture;
     }
 
     @Override
