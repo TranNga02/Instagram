@@ -7,6 +7,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -23,9 +26,9 @@ import com.example.instagram.viewmodel.LogInViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+//import com.google.firebase.firestore.FirebaseFirestore;
+//import com.google.firebase.firestore.QueryDocumentSnapshot;
+//import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +47,19 @@ public class FeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFeedBinding.inflate(inflater, container, false);
-
+        binding.btnMessage.setOnClickListener(new View.OnClickListener() {
+                    //@Override
+                    public void onClick(View v) {
+                        NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
+                        NavOptions navOptions = new NavOptions.Builder()
+                                .setPopUpTo(R.id.feedFragment, true)
+                                .build();
+                        navController.navigate(R.id.messageFragment, null, navOptions);
+                    }
+                });
         View rootView = binding.getRoot();
         return rootView;
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
