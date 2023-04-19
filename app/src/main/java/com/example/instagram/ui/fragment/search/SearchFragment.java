@@ -59,7 +59,6 @@ public class SearchFragment extends Fragment {
         users = new ArrayList<>();
         userAdapterSearch = new UserAdapterSearch(getContext(),users);
         recyclerView.setAdapter(userAdapterSearch);
-
         readUsers();
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -69,7 +68,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                searchUser(s.toString().toLowerCase(Locale.ROOT));
+                searchUser(s.toString().toLowerCase(Locale.ROOT));
             }
 
             @Override
@@ -104,6 +103,9 @@ public class SearchFragment extends Fragment {
 
 
     }
+    public void clickCardUser(View v) {
+        Toast.makeText(getActivity(), "Layout", Toast.LENGTH_SHORT).show();
+    }
     private void readUsers(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("profiles").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -124,4 +126,6 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+
 }

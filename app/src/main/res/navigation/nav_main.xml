@@ -35,7 +35,11 @@
         android:id="@+id/searchFragment"
         android:name="com.example.instagram.ui.fragment.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_blogFragment2"
+            app:destination="@id/blogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/commentsFragment"
         android:name="com.example.instagram.ui.fragment.feed.CommentsFragment"
