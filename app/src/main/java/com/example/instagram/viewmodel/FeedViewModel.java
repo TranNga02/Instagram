@@ -31,7 +31,7 @@ public class FeedViewModel extends ViewModel {
     }
 
     public void getPostOfCurrentUser(){
-        postRepo.getPostOfCurrentUser(new PostRepository.PostCallback() {
+        postRepo.getFullPost(new PostRepository.PostCallback() {
             @Override
             public void onPostsLoaded(ArrayList<PostFeed> postsList) {
                 posts.setValue(postsList);
