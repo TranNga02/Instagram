@@ -14,11 +14,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class PostRepository {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public void getFullPost(final PostCallback callback) {
         ArrayList<PostFeed> postArrayList = new ArrayList<>();
         String userId = FirebaseAuth.getInstance().getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("posts")
                 .get()
@@ -70,6 +70,9 @@ public class PostRepository {
                 });
     }
 
+    public void updateLikeOfPost(String postId, String userId){
+        DocumentReference postRef = db.collection("posts").document("postId");
+    }
 
     public interface PostCallback {
         void onPostsLoaded(ArrayList<PostFeed> postsList);

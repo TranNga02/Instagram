@@ -54,6 +54,9 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         FeedViewModel feedViewModel = new ViewModelProvider(this).get(FeedViewModel.class);
+//        // Gọi phương thức registerFirestoreListener để đăng ký lắng nghe sự kiện trên Firestore
+//        feedViewModel.registerFirestoreListener();
+
         postArrayList = new ArrayList<>();
         postAdapter = new PostAdapterFeed(getContext(), postArrayList);
 

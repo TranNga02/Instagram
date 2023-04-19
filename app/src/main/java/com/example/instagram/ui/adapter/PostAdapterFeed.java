@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -65,9 +66,10 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivPost;
+        public ImageView ivPost, btnLike;
         public TextView tvDate, tvUsername, tvLikes, tvPostContent;
         public ImageView ivUserAvatar;
+        boolean like = true;
 
         public ViewHolder(View view) {
             super(view);
@@ -77,6 +79,15 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
             tvLikes = view.findViewById(R.id.tv_likes);
             tvPostContent = view.findViewById(R.id.tv_post_content);
             ivUserAvatar = view.findViewById(R.id.iv_user_avatar);
+            btnLike = view.findViewById(R.id.btn_like);
+
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         }
     }
 }
