@@ -12,16 +12,8 @@ public class PostFeed {
     private String userId;
     private List<String> likes;
     private List<String> src;
-
-    public PostFeed() {}
-
-    public PostFeed(String content, String time, String userId, List<String> likes, List<String> src) {
-        this.content = content;
-        this.time = time;
-        this.userId = userId;
-        this.likes = likes;
-        this.src = src;
-    }
+    private String username;
+    private String avatar;
 
     public long getNumberofDays(){
         DateTimeFormatter formatter = null;
@@ -91,5 +83,21 @@ public class PostFeed {
 
     public void setSrc(List<String> src) {
         this.src = src;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

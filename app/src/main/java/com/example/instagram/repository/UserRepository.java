@@ -9,11 +9,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserRepository {
 
@@ -35,32 +39,5 @@ public class UserRepository {
                 });
 
         return logInResult.getTask();
-    }
-
-    public void getUserById(String userId,final UserRepository.UserCallback callback){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("profiles")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            UserProfile user = new UserProfile();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(userId.equals(document.getId())){
-                                    user = document.toObject(UserProfile.class);
-                                }
-                            }
-                            callback.onUserByIdLoaded(user);
-                        } else {
-                            System.out.println("Error getting documents." + task.getException());
-                        }
-                    }
-                });
-    }
-
-    public interface UserCallback {
-        void onUserByIdLoaded(UserProfile user);
     }
 }
