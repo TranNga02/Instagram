@@ -13,6 +13,7 @@ public class UserProfile {
     private String birthday;
     private List<String> followed;
     private List<String> follower;
+    private String email;
 
     public String getId() {
         return id;
@@ -92,5 +93,13 @@ public class UserProfile {
 
     public void setFollower(List<String> follower) {
         this.follower = follower;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_feedFragment_to_commentsFragment"
             app:destination="@id/commentsFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
     </fragment>
     <fragment
         android:id="@+id/blogFragment"
@@ -32,7 +35,11 @@
         android:id="@+id/searchFragment"
         android:name="com.example.instagram.ui.fragment.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_blogFragment2"
+            app:destination="@id/blogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/commentsFragment"
         android:name="com.example.instagram.ui.fragment.feed.CommentsFragment"
@@ -43,4 +50,9 @@
         android:name="com.example.instagram.ui.fragment.blog.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting2" />
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.example.instagram.ui.fragment.feed.MessageFragment"
+        android:label="fragment_message"
+        tools:layout="@layout/fragment_message" />
 </navigation>

@@ -11,15 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.instagram.R;
 import com.example.instagram.databinding.CardUserBinding;
 import com.example.instagram.ui.model.User;
+import com.example.instagram.ui.model.UserProfile;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UserAdapterFollow extends RecyclerView.Adapter<UserAdapterFollow.UserViewHolder> {
     private Context context;
-    private List<User> users;
+    private List<UserProfile> users;
 
-    public UserAdapterFollow(Context context, List<User> users) {
+    public UserAdapterFollow(Context context, List<UserProfile> users) {
         this.context = context;
         this.users = users;
     }
@@ -49,13 +50,13 @@ public class UserAdapterFollow extends RecyclerView.Adapter<UserAdapterFollow.Us
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User user = users.get(position);
+        UserProfile user = users.get(position);
 
         holder.binding.setUserAdapterFollow(this);
         holder.binding.setUser(user);
 
         // load photo
-        Picasso.get().load(user.getUser_photo()).into(holder.binding.cardUserImgUserPhoto);
+        Picasso.get().load(user.getAvatar()).into(holder.binding.cardUserImgUserPhoto);
     }
 
     @Override
