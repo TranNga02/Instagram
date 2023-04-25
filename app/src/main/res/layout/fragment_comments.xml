@@ -19,27 +19,20 @@
             android:gravity="center"
             android:background="@drawable/bottom_border"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_back"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Comments"
+                android:text="Bình luận"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:gravity="center"/>
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_message"/>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_fragment_comments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
@@ -68,26 +61,33 @@
                 android:orientation="horizontal"
                 android:background="@drawable/comment_border"
                 >
-                <EditText
+                <ScrollView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Add a comment..."
-                    android:textColorHint="@color/gray_200"
-                    android:textColor="@color/white"
-                    android:padding="15dp"
-                    android:textSize="18sp"
-                    android:inputType="textMultiLine"/>
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/et_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Thêm bình luận..."
+                        android:textColorHint="@color/gray_200"
+                        android:textColor="@color/white"
+                        android:padding="15dp"
+                        android:textSize="18sp"
+                        android:inputType="textMultiLine" />
+                </ScrollView>
 
                 <TextView
+                    android:id="@+id/btn_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:text="Post"
-                    android:textSize="18sp"
+                    android:padding="10dp"
+                    android:text="Đăng"
                     android:textColor="@color/blue_200"
-                    android:textStyle="bold"
-                    android:padding="10dp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.instagram.repository;
 
 import androidx.annotation.NonNull;
 
+import com.example.instagram.ui.model.Comment;
 import com.example.instagram.ui.model.PostFeed;
 import com.example.instagram.ui.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public Task<Boolean> logIn(String email, String password){
         TaskCompletionSource<Boolean> logInResult = new TaskCompletionSource<>();
@@ -39,5 +41,29 @@ public class UserRepository {
                 });
 
         return logInResult.getTask();
+    }
+
+    public void getUserAvatar(String userId,final UserCallback callback){
+        DocumentReference userDocRef = db.collection("profiles").document(userId);
+        userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> userTask) {
+                if (userTask.isSuccessful()) {
+                    DocumentSnapshot userSnapshot = userTask.getResult();
+                    if (userSnapshot.exists()) {
+                        String avatar = userSnapshot.getString("avatar");
+                        callback.onAvatarLoaded(avatar);
+                    } else {
+                        System.out.println("Không tìm thấy dữ liệu người dùng ứng với userId: " + userId);
+                    }
+                } else {
+                    System.out.println("Lỗi khi lấy dữ liệu người dùng: " + userTask.getException());
+                }
+            }
+        });
+    }
+
+    public interface UserCallback {
+        void onAvatarLoaded(String avatar);
     }
 }

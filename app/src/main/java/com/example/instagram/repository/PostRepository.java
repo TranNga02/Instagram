@@ -1,24 +1,28 @@
 package com.example.instagram.repository;
 import androidx.annotation.NonNull;
 
+import com.example.instagram.ui.model.Comment;
 import com.example.instagram.ui.model.PostFeed;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class PostRepository {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public void getFullPost(final PostCallback callback) {
         ArrayList<PostFeed> postArrayList = new ArrayList<>();
         String userId = FirebaseAuth.getInstance().getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("posts")
                 .get()
@@ -28,11 +32,12 @@ public class PostRepository {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String postUserId = document.getString("user-id");
                                 PostFeed post = document.toObject(PostFeed.class);
+                                String postUserId = document.getString("user-id");
                                 post.setUserId(postUserId);
+                                post.setId(document.getId());
 
-                                // Lấy thông tin người dùng ứng với user-id của bài post
+                                // Lấy thông tin người dùng ứng với user-id của comment
                                 DocumentReference userDocRef = db.collection("profiles").document(postUserId);
                                 userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
@@ -57,6 +62,13 @@ public class PostRepository {
                                         // Kiểm tra xem đã lấy thông tin cho hết các bài post chưa
                                         if (postArrayList.size() == task.getResult().size()) {
                                             // Nếu đã lấy thông tin cho hết các bài post, gọi callback để thông báo hoàn thành
+                                            // Sắp xếp commentArrayList theo thời gian (time)
+                                            Collections.sort(postArrayList, new Comparator<PostFeed>() {
+                                                @Override
+                                                public int compare(PostFeed o1, PostFeed o2) {
+                                                    return o2.getTime().compareTo(o1.getTime());
+                                                }
+                                            });
                                             callback.onPostsLoaded(postArrayList);
                                         }
                                     }
@@ -70,6 +82,45 @@ public class PostRepository {
                 });
     }
 
+    public void updateLikeOfPost(String postId, String userId){
+        DocumentReference postRef = db.collection("posts").document(postId);
+
+        postRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                // Get the current likes array
+                Object likesObject = documentSnapshot.get("likes");
+                if (likesObject instanceof ArrayList) {
+                    ArrayList<String> likesArray = (ArrayList<String>) likesObject;
+                    if (likesArray.contains(userId)) {
+                        // If userId is already in the likes array, remove it
+                        postRef.update("likes", FieldValue.arrayRemove(userId))
+                                .addOnSuccessListener(aVoid -> {
+                                    // If userId was removed successfully
+                                    System.out.println("Successfully removed userId from likes array.");
+                                })
+                                .addOnFailureListener(e -> {
+                                    // If there was an error removing userId from likes array, handle it here
+                                    System.err.println("Error removing userId from likes array: " + e.getMessage());
+                                });
+                    } else {
+                        // If userId is not in the likes array, add it
+                        postRef.update("likes", FieldValue.arrayUnion(userId))
+                                .addOnSuccessListener(aVoid -> {
+                                    // If userId was added successfully
+                                    System.out.println("Successfully added userId to likes array.");
+                                })
+                                .addOnFailureListener(e -> {
+                                    // If there was an error adding userId to likes array, handle it here
+                                    System.err.println("Error adding userId to likes array: " + e.getMessage());
+                                });
+                    }
+                }
+            }
+        }).addOnFailureListener(e -> {
+            // If there was an error getting the document, handle it here
+            System.err.println("Error getting post document: " + e.getMessage());
+        });
+    }
 
     public interface PostCallback {
         void onPostsLoaded(ArrayList<PostFeed> postsList);

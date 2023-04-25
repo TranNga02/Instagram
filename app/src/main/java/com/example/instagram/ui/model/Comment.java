@@ -8,13 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
-public class PostFeed {
+public class Comment {
     private String id;
+    private String userId;
+    private String postId;
+    private List<String> likes;
     private String content;
     private Timestamp time;
-    private String userId;
-    private List<String> likes;
-    private List<String> src;
     private String username;
     private String avatar;
 
@@ -47,28 +47,20 @@ public class PostFeed {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Timestamp getTime() {
-        return time;
-    }
-
-    public void setTime(Timestamp time) {
-        this.time = time;
-    }
-
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
     public List<String> getLikes() {
@@ -83,12 +75,20 @@ public class PostFeed {
         this.likes = likes;
     }
 
-    public List<String> getSrc() {
-        return src;
+    public String getContent() {
+        return content;
     }
 
-    public void setSrc(List<String> src) {
-        this.src = src;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     public String getUsername() {

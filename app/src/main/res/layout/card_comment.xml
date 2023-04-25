@@ -40,13 +40,12 @@
                 <TextView
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:text="Username"
+                    android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    />
+                    android:text="Username"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_date"
@@ -54,19 +53,27 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@color/gray"
-                    android:text="2ngay"
+                    android:text="2"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray"
+                    android:text=" ngày"
                     />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_comment"
+                android:id="@+id/tv_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_marginRight="10dp"
                 android:text="comment"
+                android:maxLines="5"
                 />
 
             <LinearLayout
@@ -78,22 +85,12 @@
                     android:id="@+id/tv_likes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5sp"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/gray"
-                    android:text="6"
+                    android:text="6 lượt thích"
                     />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/gray"
-                    android:text=" luot thich"
-                    android:layout_marginRight="10dp"
-                    />
-
                 <TextView
                     android:id="@+id/tv_reply"
                     android:layout_width="wrap_content"
@@ -101,7 +98,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/gray"
-                    android:text="Reply"
+                    android:text="Trả lời"
                     />
 
             </LinearLayout>

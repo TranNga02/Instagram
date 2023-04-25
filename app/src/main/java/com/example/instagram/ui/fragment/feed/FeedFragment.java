@@ -18,20 +18,10 @@ import android.view.ViewGroup;
 
 import com.example.instagram.R;
 import com.example.instagram.databinding.FragmentFeedBinding;
-import com.example.instagram.repository.PostRepository;
 import com.example.instagram.ui.adapter.PostAdapterFeed;
 import com.example.instagram.ui.model.PostFeed;
 import com.example.instagram.viewmodel.FeedViewModel;
-import com.example.instagram.viewmodel.LogInViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.firestore.FirebaseFirestore;
-//import com.google.firebase.firestore.QueryDocumentSnapshot;
-//import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class FeedFragment extends Fragment {
     private FragmentFeedBinding binding;
@@ -65,6 +55,7 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         FeedViewModel feedViewModel = new ViewModelProvider(this).get(FeedViewModel.class);
+
         postArrayList = new ArrayList<>();
         postAdapter = new PostAdapterFeed(getContext(), postArrayList);
 
