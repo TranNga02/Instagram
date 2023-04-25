@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,11 +29,12 @@ public class PostRepository {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String postUserId = document.getString("user-id");
                                 PostFeed post = document.toObject(PostFeed.class);
+                                String postUserId = document.getString("user-id");
                                 post.setUserId(postUserId);
+                                post.setId(document.getId());
 
-                                // Lấy thông tin người dùng ứng với user-id của bài post
+                                // Lấy thông tin người dùng ứng với user-id của comment
                                 DocumentReference userDocRef = db.collection("profiles").document(postUserId);
                                 userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
@@ -71,7 +73,43 @@ public class PostRepository {
     }
 
     public void updateLikeOfPost(String postId, String userId){
-        DocumentReference postRef = db.collection("posts").document("postId");
+        DocumentReference postRef = db.collection("posts").document(postId);
+
+        postRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                // Get the current likes array
+                Object likesObject = documentSnapshot.get("likes");
+                if (likesObject instanceof ArrayList) {
+                    ArrayList<String> likesArray = (ArrayList<String>) likesObject;
+                    if (likesArray.contains(userId)) {
+                        // If userId is already in the likes array, remove it
+                        postRef.update("likes", FieldValue.arrayRemove(userId))
+                                .addOnSuccessListener(aVoid -> {
+                                    // If userId was removed successfully
+                                    System.out.println("Successfully removed userId from likes array.");
+                                })
+                                .addOnFailureListener(e -> {
+                                    // If there was an error removing userId from likes array, handle it here
+                                    System.err.println("Error removing userId from likes array: " + e.getMessage());
+                                });
+                    } else {
+                        // If userId is not in the likes array, add it
+                        postRef.update("likes", FieldValue.arrayUnion(userId))
+                                .addOnSuccessListener(aVoid -> {
+                                    // If userId was added successfully
+                                    System.out.println("Successfully added userId to likes array.");
+                                })
+                                .addOnFailureListener(e -> {
+                                    // If there was an error adding userId to likes array, handle it here
+                                    System.err.println("Error adding userId to likes array: " + e.getMessage());
+                                });
+                    }
+                }
+            }
+        }).addOnFailureListener(e -> {
+            // If there was an error getting the document, handle it here
+            System.err.println("Error getting post document: " + e.getMessage());
+        });
     }
 
     public interface PostCallback {

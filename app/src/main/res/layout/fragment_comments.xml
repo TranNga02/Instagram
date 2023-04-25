@@ -40,6 +40,7 @@
                 android:src="@drawable/ic_message"/>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_fragment_comments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>

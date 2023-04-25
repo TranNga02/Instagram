@@ -46,6 +46,10 @@ public class FeedViewModel extends ViewModel {
         });
     }
 
+    public void updateLikeOfPost(String postId, String userId){
+        postRepo.updateLikeOfPost(postId, userId);
+    }
+
 //    public void registerFirestoreListener() {
 //        firestore.collection("posts")
 //                .addSnapshotListener(new EventListener<QuerySnapshot>() {
