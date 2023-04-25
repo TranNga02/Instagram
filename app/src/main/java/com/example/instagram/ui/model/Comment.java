@@ -1,5 +1,7 @@
 package com.example.instagram.ui.model;
 
+import com.google.firebase.Timestamp;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,34 +14,22 @@ public class Comment {
     private String postId;
     private List<String> likes;
     private String content;
-    private String time;
+    private Timestamp time;
     private String username;
     private String avatar;
 
-    public long getNumberofDays(){
-        DateTimeFormatter formatter = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss 'GMT'xxx yyyy");
-        }
-        LocalDateTime dt1 = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            dt1 = LocalDateTime.parse(time, formatter);
-        }
-        LocalDateTime dt2 = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            dt2 = LocalDateTime.parse(new Date().toString(), formatter);
-        }
+    public int getNumberofDays(){
+        // Lấy ngày hiện tại
+        Date currentDate = new Date();
 
-        Duration duration = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            duration = Duration.between(dt1, dt2);
-        }
-        long days = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            days = duration.toDays();
-        }
+        // Chuyển đổi Timestamp thành Date
+        Date timestampDate = time.toDate();
 
-        return days;
+        // Tính số milliseconds giữa ngày hiện tại và ngày của Timestamp
+        long timeDifferenceInMillis = Math.abs(currentDate.getTime() - timestampDate.getTime());
+
+        // Chuyển đổi số milliseconds thành số ngày
+        return (int) (timeDifferenceInMillis / (24 * 60 * 60 * 1000));
     }
 
     public boolean isLike(String userId){
@@ -93,11 +83,11 @@ public class Comment {
         this.content = content;
     }
 
-    public String getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 

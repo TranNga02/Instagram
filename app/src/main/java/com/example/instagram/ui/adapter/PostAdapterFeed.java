@@ -82,13 +82,6 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
         holder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.like = !holder.like;
-                if(holder.like){
-                    holder.btnLike.setImageResource(R.drawable.ic_heart_select);
-                }else{
-                    holder.btnLike.setImageResource(R.drawable.ic_heart);
-                }
-
                 int position = holder.getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION) {
                     FeedViewModel model = new FeedViewModel();

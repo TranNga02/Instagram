@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@color/gray"
-                    android:text="ngay"
+                    android:text=" ngày"
                     />
 
             </LinearLayout>
@@ -73,6 +73,7 @@
                 android:textColor="@color/white"
                 android:layout_marginRight="10dp"
                 android:text="comment"
+                android:maxLines="5"
                 />
 
             <LinearLayout
@@ -84,22 +85,12 @@
                     android:id="@+id/tv_likes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5sp"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/gray"
-                    android:text="6"
+                    android:text="6 lượt thích"
                     />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/gray"
-                    android:text=" luot thich"
-                    android:layout_marginRight="10dp"
-                    />
-
                 <TextView
                     android:id="@+id/tv_reply"
                     android:layout_width="wrap_content"
@@ -107,7 +98,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/gray"
-                    android:text="Reply"
+                    android:text="Trả lời"
                     />
 
             </LinearLayout>

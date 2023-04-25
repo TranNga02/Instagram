@@ -1,6 +1,7 @@
 package com.example.instagram.repository;
 import androidx.annotation.NonNull;
 
+import com.example.instagram.ui.model.Comment;
 import com.example.instagram.ui.model.PostFeed;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -13,6 +14,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class PostRepository {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -59,6 +62,13 @@ public class PostRepository {
                                         // Kiểm tra xem đã lấy thông tin cho hết các bài post chưa
                                         if (postArrayList.size() == task.getResult().size()) {
                                             // Nếu đã lấy thông tin cho hết các bài post, gọi callback để thông báo hoàn thành
+                                            // Sắp xếp commentArrayList theo thời gian (time)
+                                            Collections.sort(postArrayList, new Comparator<PostFeed>() {
+                                                @Override
+                                                public int compare(PostFeed o1, PostFeed o2) {
+                                                    return o2.getTime().compareTo(o1.getTime());
+                                                }
+                                            });
                                             callback.onPostsLoaded(postArrayList);
                                         }
                                     }

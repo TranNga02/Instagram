@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.instagram.R;
 import com.example.instagram.ui.model.Comment;
+import com.example.instagram.viewmodel.CommentViewModel;
+import com.example.instagram.viewmodel.FeedViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -41,12 +43,17 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     public void onBindViewHolder(@NonNull CommentsAdapter.ViewHolder holder, int position) {
         Comment comment = commentArrayList.get(position);
 
+        holder.tvDate.setText(String.valueOf(comment.getNumberofDays()));
         holder.tvUsername.setText(comment.getUsername());
         holder.tvContent.setText(comment.getContent());
-        holder.tvLikes.setText(String.valueOf(comment.countLikes()));
-        holder.tvDate.setText(String.valueOf(comment.getNumberofDays()));
-
         holder.like = comment.isLike(userId);
+        if(comment.countLikes()>0){
+            holder.tvLikes.setText(String.valueOf(comment.countLikes())+" lượt thích");
+        }
+        else{
+            holder.tvLikes.setText("");
+        }
+
         if(holder.like){
             holder.btnLike.setImageResource(R.drawable.ic_heart_select);
         }else{
@@ -59,6 +66,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                     .load(avatarUri)
                     .into(holder.ivUserAvatar);
         }
+
+        holder.btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                if(position != RecyclerView.NO_POSITION) {
+                    CommentViewModel model = new CommentViewModel();
+                    String commentId = commentArrayList.get(position).getId();
+                    model.updateLikeOfComment(commentId, userId);
+                }
+            }
+        });
     }
 
     @Override
