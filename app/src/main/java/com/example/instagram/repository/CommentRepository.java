@@ -125,32 +125,6 @@ public class CommentRepository {
                     }
                 });
     }
-//    public void addComment(String content, String postId, String userId, Timestamp time){
-//        DocumentReference commentRef = db.collection("comments").document();
-//
-//        Map<String, Object> commentData = new HashMap<>();
-//        commentData.put("content", content);
-//        commentData.put("likes", Arrays.asList());
-//        commentData.put("postId", postId);
-//        commentData.put("time", time);
-//        commentData.put("userId", userId);
-//
-//        commentRef.set(commentData)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        // Document added successfully
-//                        Log.d("TAG", "Comment document added with ID: " + commentRef.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        // Failed to add document
-//                        Log.e("TAG", "Error adding comment document", e);
-//                    }
-//                });
-//    }
 
     public void updateLikeOfComment(String commentId, String userId){
         DocumentReference commentRef = db.collection("comments").document(commentId);

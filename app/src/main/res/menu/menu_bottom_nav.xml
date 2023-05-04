@@ -17,6 +17,11 @@
         android:icon="@drawable/ic_post"/>
 
     <item
+        android:id="@+id/notificationFragment"
+        android:title=""
+        android:icon="@drawable/ic_notifications"/>
+
+    <item
         android:id="@+id/blogFragment"
         android:title=""
         android:icon="@drawable/ic_blog"/>

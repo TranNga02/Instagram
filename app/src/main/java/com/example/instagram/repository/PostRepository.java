@@ -1,9 +1,17 @@
 package com.example.instagram.repository;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.OpenableColumns;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
-import com.example.instagram.ui.model.Comment;
 import com.example.instagram.ui.model.PostFeed;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -12,10 +20,18 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PostRepository {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -33,7 +49,7 @@ public class PostRepository {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 PostFeed post = document.toObject(PostFeed.class);
-                                String postUserId = document.getString("user-id");
+                                String postUserId = document.getString("userId");
                                 post.setUserId(postUserId);
                                 post.setId(document.getId());
 
@@ -120,6 +136,86 @@ public class PostRepository {
             // If there was an error getting the document, handle it here
             System.err.println("Error getting post document: " + e.getMessage());
         });
+    }
+
+    public void addNewPost(Context context, String content, Uri imageUri){
+
+        // ------UploadImageToStorage------
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        // Create a storage reference to the video file
+        String imageTitle = getTitleFromUri(context, imageUri);
+
+        StorageReference imageRef = storage.getReference().child(imageTitle);
+
+        // Create a new UploadTask to upload the video file
+        UploadTask uploadTask = imageRef.putFile(imageUri);
+
+        // Set up a listener for the upload progress
+        uploadTask.addOnProgressListener(taskSnapshot -> {
+            Log.d("MY_APP", "Uploading");
+        }).addOnPausedListener(taskSnapshot -> {
+            Log.d("MY_APP", "Upload is paused");
+        }).addOnFailureListener(exception -> {
+            Log.e("DEBUG", "Failed to upload video", exception);
+        }).addOnSuccessListener(taskSnapshot -> {
+            Log.d("DEBUG", "Video uploaded successfully");
+
+            // Get the download URL of the uploaded video
+            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String imageUrl = uri.toString();
+                Log.d("DEBUG", "Video URL: " + imageUrl);
+
+                // Do something with the video URL, like storing it in a Firestore document or displaying it in a VideoView
+
+                UpLoadPostInfoToFireStore(new Date(), imageUrl, content);
+
+            }).addOnFailureListener(exception -> {
+                Log.e("DEBUG", "Failed to get download URL for video", exception);
+            });
+        });
+    }
+
+    public String getTitleFromUri(Context context, Uri uri){
+        String imageTitle = "";
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int titleIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            if (titleIndex >= 0) {
+                imageTitle = cursor.getString(titleIndex);
+            }
+            cursor.close();
+        }
+        return imageTitle;
+    }
+
+    private void UpLoadPostInfoToFireStore(Date date, String imageUrl, String content) {
+        DocumentReference postsRef = db.collection("posts").document();
+        List<String> srcs = Arrays.asList(imageUrl);
+
+        Map<String, Object> postData = new HashMap<>();
+        postData.put("content", content);
+        postData.put("likes", Arrays.asList());
+        postData.put("src", srcs);
+        postData.put("time", date);
+        postData.put("userId", FirebaseAuth.getInstance().getUid());
+
+        postsRef.set(postData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Document added successfully
+                        Log.d("TAG", "Post document added with ID: " + postsRef.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to add document
+                        Log.e("TAG", "Error adding post document", e);
+                    }
+                });
     }
 
     public interface PostCallback {

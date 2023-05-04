@@ -55,4 +55,9 @@
         android:name="com.example.instagram.ui.fragment.feed.MessageFragment"
         android:label="fragment_message"
         tools:layout="@layout/fragment_message" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.example.instagram.ui.fragment.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
 </navigation>

@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.instagram.repository.CommentRepository;
+import com.example.instagram.repository.NotificationRepository;
 import com.example.instagram.repository.PostRepository;
 import com.example.instagram.repository.UserRepository;
 import com.example.instagram.ui.model.Comment;
+import com.example.instagram.ui.model.Notification;
 import com.example.instagram.ui.model.PostFeed;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,6 +24,7 @@ public class CommentViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Comment>> comments;
     private MutableLiveData<String> userAvatar;
     private CommentRepository commentRepo;
+    private NotificationViewModel notificationViewModel;
     private UserRepository userRepo;
     private CollectionReference commentCollectionRef;
     private FirebaseFirestore firestore;
@@ -32,6 +35,7 @@ public class CommentViewModel extends ViewModel {
         userRepo = new UserRepository();
         firestore = FirebaseFirestore.getInstance();
         commentCollectionRef = firestore.collection("comments");
+        notificationViewModel = new NotificationViewModel();
 
         // Đăng ký lắng nghe sự kiện trên collection 'post' trong Firestore
         commentCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -74,11 +78,15 @@ public class CommentViewModel extends ViewModel {
             public void onAvatarLoaded(String avatar) {
                 userAvatar.setValue(avatar);
             }
+
+            @Override
+            public void onUsernameLoaded(String username) {}
         });
     }
 
-    public void addComment(String content, String postId, String userId){
+    public void addComment(String content, String postId, String userId, String postOwnerId){
         commentRepo.addComment(content, postId, userId);
+        notificationViewModel.addNotification("comment", userId, postId, postOwnerId);
     }
 
     public void updateLikeOfComment(String commentId, String userId){
