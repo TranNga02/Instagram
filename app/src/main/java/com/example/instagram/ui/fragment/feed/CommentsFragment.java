@@ -29,7 +29,7 @@ public class CommentsFragment extends Fragment {
     private FragmentCommentsBinding binding;
     ArrayList<Comment> commentArrayList;
     CommentsAdapter commentsAdapter;
-    String postId, userId;
+    String postId, userId, postOwnerId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,7 @@ public class CommentsFragment extends Fragment {
         binding = FragmentCommentsBinding.inflate(inflater, container, false);
 
         postId = getArguments().getString("post-id");
+        postOwnerId = getArguments().getString("post-owner-id");
         userId = FirebaseAuth.getInstance().getUid();
 
         View rootView = binding.getRoot();
@@ -52,7 +53,6 @@ public class CommentsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         CommentViewModel commentViewModel = new ViewModelProvider(this).get(CommentViewModel.class);
-
 
         commentArrayList = new ArrayList<>();
         commentsAdapter = new CommentsAdapter(getContext(), commentArrayList);
@@ -85,7 +85,7 @@ public class CommentsFragment extends Fragment {
         binding.btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commentViewModel.addComment(binding.etComment.getText().toString(), postId, userId);
+                commentViewModel.addComment(binding.etComment.getText().toString(), postId, userId, postOwnerId);
                 binding.etComment.clearFocus();
                 binding.etComment.setText("");
                 InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
