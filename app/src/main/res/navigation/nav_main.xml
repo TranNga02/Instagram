@@ -49,7 +49,7 @@
         android:id="@+id/settingFragment"
         android:name="com.example.instagram.ui.fragment.blog.SettingFragment"
         android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting2" />
+        tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/messageFragment"
         android:name="com.example.instagram.ui.fragment.feed.MessageFragment"
