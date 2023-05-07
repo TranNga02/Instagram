@@ -31,6 +31,7 @@ import com.example.instagram.ui.model.PostFeed;
 import com.example.instagram.ui.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +49,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -85,11 +87,9 @@ public class BlogFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 String idPost = String.valueOf(postList.get(position).getId());
-//                String idPost = String.valueOf("I9GSxht46b7B5mzFhrfJ");
 
                 Bundle bundle = new Bundle();
                 bundle.putString("idPost", idPost);
-//                Log.i("TAG", idPost);
                 NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
                 NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.blogFragment, true)
@@ -110,13 +110,19 @@ public class BlogFragment extends Fragment {
                     navController.navigate(R.id.settingFragment, null, navOptions);
                 }
                 else if (btn.equals("Follow")) {
-
-
-
+                    follow(idUser);
+                }
+                else {
+                    unfollow(idUser);
                 }
             }
         });
-        ShowUser();
+        Bundle bundle2 = getArguments();
+        if (bundle2 != null) {
+            emailUser = bundle2.getString("email");
+            idUser = bundle2.getString("idUser");
+        }
+        ShowUser(emailUser, idUser);
         return view;
     }
 
@@ -126,9 +132,12 @@ public class BlogFragment extends Fragment {
     RecyclerView recyclerViewPost;
     FirebaseUser firebaseUser;
     String profileId;
+    String emailUser = "";
+    String idUser = "";
     private ArrayList<PostFeed> postList;
     PostAdapterProfile postAdapterProfile;
-    public void ShowUser(){
+    public void ShowUser(String emailUser, String idUser){
+        postList.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -137,9 +146,17 @@ public class BlogFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String postId = document.getId();
                         PostFeed postFeed = document.toObject(PostFeed.class); // create a new Post instance using the data from the document
-                        if(firebaseUser.getUid().equals(postFeed.getUserId())) {
-                            postFeed.setId(postId);
-                            postList.add(postFeed);
+                        if(idUser == ""){
+                            if(firebaseUser.getUid().equals(postFeed.getUserId())) {
+                                postFeed.setId(postId);
+                                postList.add(postFeed);
+                            }
+                        }
+                        else {
+                            if(idUser.equals(postFeed.getUserId())) {
+                                postFeed.setId(postId);
+                                postList.add(postFeed);
+                            }
                         }
                     }
                     postAdapterProfile.notifyDataSetChanged();
@@ -157,18 +174,45 @@ public class BlogFragment extends Fragment {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         UserProfile user = document.toObject(UserProfile.class); // create a new Post instance using the data from the document
-                        if(firebaseUser.getEmail().equals(user.getEmail())) {
-                            txt_followers.setText(String.valueOf(user.getFollower().size()));
-                            txt_followings.setText(String.valueOf(user.getFollowed().size()));
-                            fullname.setText(user.getFullname().toString());
-                            bio.setText(user.getBio().toString());
-                            txt_post.setText(String.valueOf(postAdapterProfile.getItemCount()));
-                            Glide.with(getContext()).load(user.getAvatar()).into(avatar);
-                            break;
+                        if(idUser == "" || idUser.equals(firebaseUser.getUid())){
+                            if(firebaseUser.getEmail().equals(user.getEmail())) {
+                                txt_followers.setText(String.valueOf(user.getFollower().size()));
+                                txt_followings.setText(String.valueOf(user.getFollowed().size()));
+                                fullname.setText(user.getFullname().toString());
+                                bio.setText(user.getBio().toString());
+                                txt_post.setText(String.valueOf(postAdapterProfile.getItemCount()));
+                                Glide.with(getContext()).load(user.getAvatar()).into(avatar);
+                                break;
+                            }
+                            else {
+
+                            }
                         }
                         else {
-//                            Toast.makeText(getContext(), "No find", Toast.LENGTH_SHORT).show();
+                            if(emailUser.equals(user.getEmail())) {
+                                FirebaseFirestore.getInstance().collection("profiles").
+                                        document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        UserProfile userProfile = documentSnapshot.toObject(UserProfile.class);
+                                        if(userProfile.getFollowed().contains(idUser)){
+                                            setting.setText("Following");
+                                        }
+                                        else {
+                                            setting.setText("Follow");
+                                        }
+                                    }
+                                });
+                                txt_followers.setText(String.valueOf(user.getFollower().size()));
+                                txt_followings.setText(String.valueOf(user.getFollowed().size()));
+                                fullname.setText(user.getFullname().toString());
+                                bio.setText(user.getBio().toString());
+                                txt_post.setText(String.valueOf(postAdapterProfile.getItemCount()));
+                                Glide.with(getContext()).load(user.getAvatar()).into(avatar);
+                                break;
+                            }
                         }
+
                     }
 
 
@@ -177,5 +221,52 @@ public class BlogFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void unfollow(String idUser){
+        List<String> follows = new ArrayList<>();
+        List<String> followers = new ArrayList<>();
+        CollectionReference db = FirebaseFirestore.getInstance().collection("profiles");
+        db.document(idUser).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                followers.addAll((ArrayList<String>) documentSnapshot.get("follower"));
+                followers.remove(firebaseUser.getUid());
+                db.document(idUser).update("follower", followers);
+                ShowUser(emailUser,idUser);
+            }
+        });
+        db.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                follows.addAll((ArrayList<String>) documentSnapshot.get("followed"));
+                follows.remove(idUser);
+                db.document(firebaseUser.getUid()).update("followed", follows);
+            }
+        });
+    }
+    public void follow(String idUser){
+        List<String> follows = new ArrayList<>();
+        List<String> followers = new ArrayList<>();
+        CollectionReference db = FirebaseFirestore.getInstance().collection("profiles");
+        db.document(idUser).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                followers.addAll((ArrayList<String>) documentSnapshot.get("follower"));
+                followers.add(firebaseUser.getUid());
+                db.document(idUser).update("follower", followers);
+                ShowUser(emailUser,idUser);
+            }
+        });
+        db.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                follows.addAll((ArrayList<String>) documentSnapshot.get("followed"));
+                follows.add(idUser);
+                db.document(firebaseUser.getUid()).update("followed", follows);
+            }
+        });
+
+
     }
 }
