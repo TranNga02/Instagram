@@ -33,7 +33,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ui.view.fragment.ProfileFragment">
+            tools:context=".ui.view.fragment.blog.BlogFragment">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -189,16 +189,13 @@
                 <!--                    android:text="@{user.followerListContains(Session.ACTIVE_USER.user_id) ? @string/btn_following : @string/btn_follow}"-->
                 <!--                    android:backgroundTint="@{user.followerListContains(Session.ACTIVE_USER.user_id) ? @color/md_blue_800 : @color/md_blue_400}"-->
                 <!--                    style="@style/ButtonBlue" />-->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp">
+
 
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/frgProfileRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -207,7 +204,6 @@
                         app:layout_constraintVertical_bias="1.0"/>
                     <!--                    android:adapter="@{postAdapter}"-->
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 

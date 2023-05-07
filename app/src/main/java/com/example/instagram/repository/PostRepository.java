@@ -33,7 +33,7 @@ public class PostRepository {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 PostFeed post = document.toObject(PostFeed.class);
-                                String postUserId = document.getString("user-id");
+                                String postUserId = document.getString("userId");
                                 post.setUserId(postUserId);
                                 post.setId(document.getId());
 

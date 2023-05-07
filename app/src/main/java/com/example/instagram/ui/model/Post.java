@@ -1,5 +1,7 @@
 package com.example.instagram.ui.model;
 
+import android.net.Uri;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -23,7 +25,7 @@ public class Post implements Serializable {
 
     @SerializedName("likers")
     private List<User> likers;
-
+    private List<String> src;
 //    @SerializedName("comments")
 //    private List<Comment> comments;
 
@@ -39,7 +41,7 @@ public class Post implements Serializable {
     }
 
     public String getPost_photo() {
-        return post_photo;
+        return (src.get(0));
     }
 
     public void setPost_photo(String post_photo) {
@@ -85,4 +87,11 @@ public class Post implements Serializable {
 //    public void setComments(List<Comment> comments) {
 //        this.comments = comments;
 //    }
+    public List<String> getSrc() {
+    return src;
+}
+
+    public void setSrc(List<String> src) {
+        this.src = src;
+    }
 }
