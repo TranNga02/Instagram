@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +49,7 @@ import java.util.Locale;
 public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapterSearch userAdapterSearch;
-    private List<UserProfile> users;
+    private ArrayList<UserProfile> users;
     private TextInputEditText search;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +60,12 @@ public class SearchFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         search = view.findViewById(R.id.frgSearchTxtUserName);
         users = new ArrayList<>();
-        userAdapterSearch = new UserAdapterSearch(getContext(),users);
+        userAdapterSearch = new UserAdapterSearch(getContext(), users, new UserAdapterSearch.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(getContext(), "OK click rồi", Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(userAdapterSearch);
         readUsers();
         search.addTextChangedListener(new TextWatcher() {
