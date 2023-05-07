@@ -63,7 +63,15 @@ public class SearchFragment extends Fragment {
         userAdapterSearch = new UserAdapterSearch(getContext(), users, new UserAdapterSearch.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(getContext(), "OK click rồi", Toast.LENGTH_SHORT).show();
+                String idUser = users.get(position).getId();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("idUser", idUser);
+                Log.i("", idUser);
+//                NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
+//                NavOptions navOptions = new NavOptions.Builder()
+//                        .setPopUpTo(R.id.settingFragment, true)
+//                        .build();
+//                navController.navigate(R.id.blogFragment, bundle, navOptions);
             }
         });
         recyclerView.setAdapter(userAdapterSearch);
@@ -100,7 +108,9 @@ public class SearchFragment extends Fragment {
                         if (task.isSuccessful()) {
                             users.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                String idUser = document.getId();
                                 UserProfile user = document.toObject(UserProfile.class);
+                                user.setId(idUser);
                                 users.add(user);
                             }
                             userAdapterSearch.notifyDataSetChanged();

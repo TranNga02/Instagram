@@ -31,6 +31,7 @@ import com.example.instagram.ui.model.PostFeed;
 import com.example.instagram.ui.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -85,11 +86,9 @@ public class BlogFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 String idPost = String.valueOf(postList.get(position).getId());
-//                String idPost = String.valueOf("I9GSxht46b7B5mzFhrfJ");
 
                 Bundle bundle = new Bundle();
                 bundle.putString("idPost", idPost);
-//                Log.i("TAG", idPost);
                 NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
                 NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.blogFragment, true)
@@ -116,7 +115,13 @@ public class BlogFragment extends Fragment {
                 }
             }
         });
-        ShowUser();
+        Bundle bundle1 = getArguments();
+        String idUser = "";
+        if (bundle1 != null) {
+            idUser = bundle1.getString("idUser");
+            Log.i("", idUser);
+        }
+        ShowUser(idUser);
         return view;
     }
 
@@ -128,7 +133,7 @@ public class BlogFragment extends Fragment {
     String profileId;
     private ArrayList<PostFeed> postList;
     PostAdapterProfile postAdapterProfile;
-    public void ShowUser(){
+    public void ShowUser(String idUser){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -137,9 +142,17 @@ public class BlogFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String postId = document.getId();
                         PostFeed postFeed = document.toObject(PostFeed.class); // create a new Post instance using the data from the document
-                        if(firebaseUser.getUid().equals(postFeed.getUserId())) {
-                            postFeed.setId(postId);
-                            postList.add(postFeed);
+                        if(idUser.equals("")){
+                            if(firebaseUser.getUid().equals(postFeed.getUserId())) {
+                                postFeed.setId(postId);
+                                postList.add(postFeed);
+                            }
+                        }
+                        else {
+//                            if(idUser.equals(postFeed.getUserId())) {
+//                                postFeed.setId(postId);
+//                                postList.add(postFeed);
+//                            }
                         }
                     }
                     postAdapterProfile.notifyDataSetChanged();
@@ -157,18 +170,24 @@ public class BlogFragment extends Fragment {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         UserProfile user = document.toObject(UserProfile.class); // create a new Post instance using the data from the document
-                        if(firebaseUser.getEmail().equals(user.getEmail())) {
-                            txt_followers.setText(String.valueOf(user.getFollower().size()));
-                            txt_followings.setText(String.valueOf(user.getFollowed().size()));
-                            fullname.setText(user.getFullname().toString());
-                            bio.setText(user.getBio().toString());
-                            txt_post.setText(String.valueOf(postAdapterProfile.getItemCount()));
-                            Glide.with(getContext()).load(user.getAvatar()).into(avatar);
-                            break;
+                        if(idUser.equals("")){
+                            if(firebaseUser.getEmail().equals(user.getEmail())) {
+                                txt_followers.setText(String.valueOf(user.getFollower().size()));
+                                txt_followings.setText(String.valueOf(user.getFollowed().size()));
+                                fullname.setText(user.getFullname().toString());
+                                bio.setText(user.getBio().toString());
+                                txt_post.setText(String.valueOf(postAdapterProfile.getItemCount()));
+                                Glide.with(getContext()).load(user.getAvatar()).into(avatar);
+                                break;
+                            }
+                            else {
+//                            Toast.makeText(getContext(), "No find", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else {
-//                            Toast.makeText(getContext(), "No find", Toast.LENGTH_SHORT).show();
+
                         }
+
                     }
 
 
