@@ -63,15 +63,15 @@ public class SearchFragment extends Fragment {
         userAdapterSearch = new UserAdapterSearch(getContext(), users, new UserAdapterSearch.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String idUser = users.get(position).getId();
-//                Bundle bundle = new Bundle();
-//                bundle.putString("idUser", idUser);
-                Log.i("", idUser);
-//                NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
-//                NavOptions navOptions = new NavOptions.Builder()
-//                        .setPopUpTo(R.id.settingFragment, true)
-//                        .build();
-//                navController.navigate(R.id.blogFragment, bundle, navOptions);
+                String idUser = users.get(position).getEmail();
+                Bundle bundle = new Bundle();
+                bundle.putString("email", idUser);
+                bundle.putString("idUser", users.get(position).getId());
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setPopUpTo(R.id.searchFragment, true)
+                        .build();
+                navController.navigate(R.id.blogFragment, bundle, navOptions);
             }
         });
         recyclerView.setAdapter(userAdapterSearch);
@@ -108,9 +108,8 @@ public class SearchFragment extends Fragment {
                         if (task.isSuccessful()) {
                             users.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String idUser = document.getId();
                                 UserProfile user = document.toObject(UserProfile.class);
-                                user.setId(idUser);
+                                user.setId(document.getId());
                                 users.add(user);
                             }
                             userAdapterSearch.notifyDataSetChanged();
@@ -132,8 +131,10 @@ public class SearchFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                 if (task.isSuccessful()) {
+                    users.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         UserProfile user = document.toObject(UserProfile.class); // create a new Post instance using the data from the document
+                        user.setId(document.getId());
                         users.add(user);
                     }
                     userAdapterSearch.notifyDataSetChanged();

@@ -49,6 +49,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -109,19 +110,19 @@ public class BlogFragment extends Fragment {
                     navController.navigate(R.id.settingFragment, null, navOptions);
                 }
                 else if (btn.equals("Follow")) {
-
-
-
+                    follow(idUser);
+                }
+                else {
+                    unfollow(idUser);
                 }
             }
         });
-        Bundle bundle1 = getArguments();
-        String idUser = "";
-        if (bundle1 != null) {
-            idUser = bundle1.getString("idUser");
-            Log.i("", idUser);
+        Bundle bundle2 = getArguments();
+        if (bundle2 != null) {
+            emailUser = bundle2.getString("email");
+            idUser = bundle2.getString("idUser");
         }
-        ShowUser(idUser);
+        ShowUser(emailUser, idUser);
         return view;
     }
 
@@ -131,9 +132,12 @@ public class BlogFragment extends Fragment {
     RecyclerView recyclerViewPost;
     FirebaseUser firebaseUser;
     String profileId;
+    String emailUser = "";
+    String idUser = "";
     private ArrayList<PostFeed> postList;
     PostAdapterProfile postAdapterProfile;
-    public void ShowUser(String idUser){
+    public void ShowUser(String emailUser, String idUser){
+        postList.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -142,17 +146,17 @@ public class BlogFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String postId = document.getId();
                         PostFeed postFeed = document.toObject(PostFeed.class); // create a new Post instance using the data from the document
-                        if(idUser.equals("")){
+                        if(idUser == ""){
                             if(firebaseUser.getUid().equals(postFeed.getUserId())) {
                                 postFeed.setId(postId);
                                 postList.add(postFeed);
                             }
                         }
                         else {
-//                            if(idUser.equals(postFeed.getUserId())) {
-//                                postFeed.setId(postId);
-//                                postList.add(postFeed);
-//                            }
+                            if(idUser.equals(postFeed.getUserId())) {
+                                postFeed.setId(postId);
+                                postList.add(postFeed);
+                            }
                         }
                     }
                     postAdapterProfile.notifyDataSetChanged();
@@ -170,7 +174,7 @@ public class BlogFragment extends Fragment {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         UserProfile user = document.toObject(UserProfile.class); // create a new Post instance using the data from the document
-                        if(idUser.equals("")){
+                        if(idUser == "" || idUser.equals(firebaseUser.getUid())){
                             if(firebaseUser.getEmail().equals(user.getEmail())) {
                                 txt_followers.setText(String.valueOf(user.getFollower().size()));
                                 txt_followings.setText(String.valueOf(user.getFollowed().size()));
@@ -181,11 +185,32 @@ public class BlogFragment extends Fragment {
                                 break;
                             }
                             else {
-//                            Toast.makeText(getContext(), "No find", Toast.LENGTH_SHORT).show();
+
                             }
                         }
                         else {
-
+                            if(emailUser.equals(user.getEmail())) {
+                                FirebaseFirestore.getInstance().collection("profiles").
+                                        document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        UserProfile userProfile = documentSnapshot.toObject(UserProfile.class);
+                                        if(userProfile.getFollowed().contains(idUser)){
+                                            setting.setText("Following");
+                                        }
+                                        else {
+                                            setting.setText("Follow");
+                                        }
+                                    }
+                                });
+                                txt_followers.setText(String.valueOf(user.getFollower().size()));
+                                txt_followings.setText(String.valueOf(user.getFollowed().size()));
+                                fullname.setText(user.getFullname().toString());
+                                bio.setText(user.getBio().toString());
+                                txt_post.setText(String.valueOf(postAdapterProfile.getItemCount()));
+                                Glide.with(getContext()).load(user.getAvatar()).into(avatar);
+                                break;
+                            }
                         }
 
                     }
@@ -196,5 +221,52 @@ public class BlogFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void unfollow(String idUser){
+        List<String> follows = new ArrayList<>();
+        List<String> followers = new ArrayList<>();
+        CollectionReference db = FirebaseFirestore.getInstance().collection("profiles");
+        db.document(idUser).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                followers.addAll((ArrayList<String>) documentSnapshot.get("follower"));
+                followers.remove(firebaseUser.getUid());
+                db.document(idUser).update("follower", followers);
+                ShowUser(emailUser,idUser);
+            }
+        });
+        db.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                follows.addAll((ArrayList<String>) documentSnapshot.get("followed"));
+                follows.remove(idUser);
+                db.document(firebaseUser.getUid()).update("followed", follows);
+            }
+        });
+    }
+    public void follow(String idUser){
+        List<String> follows = new ArrayList<>();
+        List<String> followers = new ArrayList<>();
+        CollectionReference db = FirebaseFirestore.getInstance().collection("profiles");
+        db.document(idUser).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                followers.addAll((ArrayList<String>) documentSnapshot.get("follower"));
+                followers.add(firebaseUser.getUid());
+                db.document(idUser).update("follower", followers);
+                ShowUser(emailUser,idUser);
+            }
+        });
+        db.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                follows.addAll((ArrayList<String>) documentSnapshot.get("followed"));
+                follows.add(idUser);
+                db.document(firebaseUser.getUid()).update("followed", follows);
+            }
+        });
+
+
     }
 }
