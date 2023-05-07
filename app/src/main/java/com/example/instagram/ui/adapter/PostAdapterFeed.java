@@ -96,8 +96,9 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
             public void onClick(View v) {
                 CommentsFragment commentsFragment = new CommentsFragment();
                 Bundle bundle = new Bundle();
-                String postId = postArrayList.get(holder.getAdapterPosition()).getId(); // Lấy post_id từ dữ liệu của bạn
+                String postId = postArrayList.get(holder.getAdapterPosition()).getId();
                 bundle.putString("post-id", postId);
+                bundle.putString("post-owner-id", postArrayList.get(holder.getAdapterPosition()).getUserId());
                 commentsFragment.setArguments(bundle);
                 FragmentTransaction transaction = ((MainActivity) v.getContext()).getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainerView, commentsFragment);

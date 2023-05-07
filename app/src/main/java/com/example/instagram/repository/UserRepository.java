@@ -63,7 +63,28 @@ public class UserRepository {
         });
     }
 
+    public void getCurrentUsername(final UserCallback callback){
+        DocumentReference userDocRef = db.collection("profiles").document(FirebaseAuth.getInstance().getUid());
+        userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> userTask) {
+                if (userTask.isSuccessful()) {
+                    DocumentSnapshot userSnapshot = userTask.getResult();
+                    if (userSnapshot.exists()) {
+                        String username = userSnapshot.getString("username");
+                        callback.onUsernameLoaded(username);
+                    } else {
+                        System.out.println("Không tìm username ứng với userId: " + FirebaseAuth.getInstance().getUid());
+                    }
+                } else {
+                    System.out.println("Lỗi khi lấy dữ liệu người dùng: " + userTask.getException());
+                }
+            }
+        });
+    }
+
     public interface UserCallback {
         void onAvatarLoaded(String avatar);
+        void onUsernameLoaded(String username);
     }
 }
