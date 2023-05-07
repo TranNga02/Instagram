@@ -12,6 +12,8 @@ import com.example.instagram.R;
 import com.example.instagram.databinding.CardUserBinding;
 import com.example.instagram.ui.model.User;
 import com.example.instagram.ui.model.UserProfile;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -55,8 +57,8 @@ public class UserAdapterFollow extends RecyclerView.Adapter<UserAdapterFollow.Us
         holder.binding.setUserAdapterFollow(this);
         holder.binding.setUser(user);
 
-        // load photo
-        Picasso.get().load(user.getAvatar()).into(holder.binding.cardUserImgUserPhoto);
+
+
     }
 
     @Override

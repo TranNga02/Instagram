@@ -25,19 +25,21 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapterSearch extends RecyclerView.Adapter<UserAdapterSearch.UserViewHolder> {
     private Context context;
-    private List<UserProfile> users;
+    private ArrayList<UserProfile> users;
     private FirebaseUser firebaseUser;
-
-    public UserAdapterSearch(Context context, List<UserProfile> users) {
+    private UserAdapterSearch.ItemClickListener mListener;
+    public UserAdapterSearch(Context context, ArrayList<UserProfile> users, ItemClickListener listener) {
         this.context = context;
         this.users = users;
+        this.mListener = listener;
     }
 
-    public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
+    public class UserViewHolder extends RecyclerView.ViewHolder{
         public TextView username;
         public ShapeableImageView img_profile;
         public Button btn_follow;
@@ -45,8 +47,6 @@ public class UserAdapterSearch extends RecyclerView.Adapter<UserAdapterSearch.Us
             super(itemview);
             username = itemview.findViewById(R.id.cardUserTxtUserName);
             img_profile = itemview.findViewById(R.id.cardUserImgUserPhoto);
-            itemView.setOnClickListener(this); // Mấu chốt ở đây , set sự kiên onClick cho View
-            itemView.setOnLongClickListener(this); // Mấu chốt ở đây , set sự kiên onLongClick cho View
         }
         private ItemClickListener itemClickListener; // Khai báo interface
 
@@ -55,16 +55,7 @@ public class UserAdapterSearch extends RecyclerView.Adapter<UserAdapterSearch.Us
         {
             this.itemClickListener = itemClickListener;
         }
-        @Override
-        public void onClick(View v) {
-            itemClickListener.onClick(v,getAdapterPosition(),false);
-        }
 
-        @Override
-        public boolean onLongClick(View v) {
-            itemClickListener.onClick(v,getAdapterPosition(),true); // Gọi interface , true là vì đây là onLongClick
-            return true;
-        }
     }
 
     @NonNull
@@ -82,19 +73,12 @@ public class UserAdapterSearch extends RecyclerView.Adapter<UserAdapterSearch.Us
         final UserProfile user = users.get(position);
         holder.username.setText(user.getUsername());
         Glide.with(context).load(user.getAvatar()).into(holder.img_profile);
-//        holder.setItemClickListener(new ItemClickListener() {
-//            @Override
-//            public void onClick(View view, int position, boolean isLongClick) {
-//                if(isLongClick)
-//                    Toast.makeText(context, "Long Click: ", Toast.LENGTH_SHORT).show();
-//                else{
-//                    ((FragmentActivity) view.getContext()).getFragmentManager().beginTransaction()
-//                            .replace(R.id.fragmentContainerView, )
-//                            .commit();
-//                }
-//
-//            }
-//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemClick(position);
+            }
+        });
     }
 
     @Override
@@ -102,6 +86,6 @@ public class UserAdapterSearch extends RecyclerView.Adapter<UserAdapterSearch.Us
         return users.size();
     }
     public interface ItemClickListener {
-        void onClick(View view, int position,boolean isLongClick);
+        void onItemClick(int position);
     }
 }
