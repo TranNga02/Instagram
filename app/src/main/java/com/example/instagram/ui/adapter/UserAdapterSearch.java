@@ -72,7 +72,9 @@ public class UserAdapterSearch extends RecyclerView.Adapter<UserAdapterSearch.Us
 
         final UserProfile user = users.get(position);
         holder.username.setText(user.getUsername());
-        Glide.with(context).load(user.getAvatar()).into(holder.img_profile);
+        if(user.getAvatar()!=null){
+            Glide.with(context).load(user.getAvatar()).into(holder.img_profile);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

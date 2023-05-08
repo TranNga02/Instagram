@@ -42,14 +42,14 @@ public class SettingFragment extends Fragment {
         SharedPreferences preferences = getContext().getSharedPreferences("PREPS", Context.MODE_PRIVATE);
         profileId = preferences.getString("profileID","none");
         avatar = view.findViewById(R.id.frgSettingsImgProfilePhoto);
-        email = view.findViewById(R.id.frgSettingsTxtUserEmail);
+//        email = view.findViewById(R.id.frgSettingsTxtUserEmail);
         name = view.findViewById(R.id.frgSettingsTxtUserFullName);
-        pw = view.findViewById(R.id.frgSettingsTxtUserPassword);
+//        pw = view.findViewById(R.id.frgSettingsTxtUserPassword);
         bio = view.findViewById(R.id.frgSettingsTxtUserBio);
 
         btnSave = view.findViewById(R.id.frgSettingsBtnSave);
-        btnSelectImg = view.findViewById(R.id.frgSettingsBtnSelectPhoto);
-        btnUpdateImg = view.findViewById(R.id.frgSettingsBtnUpdatePhoto);
+//        btnSelectImg = view.findViewById(R.id.frgSettingsBtnSelectPhoto);
+//        btnUpdateImg = view.findViewById(R.id.frgSettingsBtnUpdatePhoto);
         ShowUser();
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

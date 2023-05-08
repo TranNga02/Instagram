@@ -181,7 +181,9 @@ public class BlogFragment extends Fragment {
                                 fullname.setText(user.getFullname().toString());
                                 bio.setText(user.getBio().toString());
                                 txt_post.setText(String.valueOf(postAdapterProfile.getItemCount()));
-                                Glide.with(getContext()).load(user.getAvatar()).into(avatar);
+                                if(user.getAvatar()!=null){
+                                    Glide.with(getContext()).load(user.getAvatar()).into(avatar);
+                                }
                                 break;
                             }
                             else {
@@ -208,7 +210,9 @@ public class BlogFragment extends Fragment {
                                 fullname.setText(user.getFullname().toString());
                                 bio.setText(user.getBio().toString());
                                 txt_post.setText(String.valueOf(postAdapterProfile.getItemCount()));
-                                Glide.with(getContext()).load(user.getAvatar()).into(avatar);
+                                if(user.getAvatar()!=null){
+                                    Glide.with(getContext()).load(user.getAvatar()).into(avatar);
+                                }
                                 break;
                             }
                         }

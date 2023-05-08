@@ -135,4 +135,5 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
             btnComment = view.findViewById(R.id.btn_comment);
         }
     }
+
 }

@@ -29,6 +29,7 @@ import com.example.instagram.viewmodel.FeedViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,6 +66,7 @@ public class DetailPostFragment extends Fragment {
         binding.rvFragmentDetailPost.setLayoutManager(new LinearLayoutManager(getContext()));
 
         View rootView = binding.getRoot();
+
         postId = getArguments().getString("idPost");
 
         feedViewModel.getDetailPost().observe(getViewLifecycleOwner(), new Observer<ArrayList<PostFeed>>() {
@@ -88,6 +90,7 @@ public class DetailPostFragment extends Fragment {
                 navController.navigate(R.id.blogFragment, null, navOptions);
             }
         });
+
         return rootView;
     }
     @Override
