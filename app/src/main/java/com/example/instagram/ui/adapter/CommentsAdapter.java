@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.instagram.R;
 import com.example.instagram.ui.model.Comment;
+import com.example.instagram.viewmodel.CaculateTime;
 import com.example.instagram.viewmodel.CommentViewModel;
 import com.example.instagram.viewmodel.FeedViewModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +44,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     public void onBindViewHolder(@NonNull CommentsAdapter.ViewHolder holder, int position) {
         Comment comment = commentArrayList.get(position);
 
-        holder.tvDate.setText(String.valueOf(comment.getNumberofDays()));
+        holder.tvDate.setText(CaculateTime.getInstance().caculateTime(comment.getTime()));
         holder.tvUsername.setText(comment.getUsername());
         holder.tvContent.setText(comment.getContent());
         holder.like = comment.isLike(userId);

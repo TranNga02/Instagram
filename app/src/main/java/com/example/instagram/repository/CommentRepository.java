@@ -35,6 +35,7 @@ public class CommentRepository {
 
     public void getCommentsByPostId(String postId, final CommentCallback callback){
         ArrayList<Comment> commentArrayList = new ArrayList<>();
+
         Query commentsQuery = db.collection("comments")
                 .whereEqualTo("postId", postId)
                 .orderBy("time", Query.Direction.ASCENDING);
@@ -96,7 +97,7 @@ public class CommentRepository {
     }
 
     public interface CommentCallback {
-        void onCommentsLoaded(ArrayList<Comment> postsList);
+        void onCommentsLoaded(ArrayList<Comment> commentsList);
     }
 
     public void addComment(String content, String postId, String userId){

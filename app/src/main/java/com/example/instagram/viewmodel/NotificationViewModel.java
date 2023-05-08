@@ -33,12 +33,12 @@ public class NotificationViewModel extends ViewModel {
         userId = FirebaseAuth.getInstance().getUid();
 
         // Đăng ký lắng nghe sự kiện trên collection 'notification' trong Firestore
-        notificationCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
-
-            }
-        });
+//        notificationCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
+//                getAllNotifications();
+//            }
+//        });
     }
 
     public LiveData<ArrayList<Notification>> getNotifications(){
@@ -58,7 +58,12 @@ public class NotificationViewModel extends ViewModel {
     }
 
     public void getAllNotifications(){
-
+        notificationRepo.loadNotification(new NotificationRepository.NotificationCallBack() {
+            @Override
+            public void onNotificationsLoaded(ArrayList<Notification> notificationsArray) {
+                notifications.setValue(notificationsArray);
+            }
+        });
     }
 
     public void getUserAvatarById(String userId){
@@ -83,10 +88,10 @@ public class NotificationViewModel extends ViewModel {
 
             @Override
             public void onUsernameLoaded(String username) {
-                if(notificationFlag == "like") content[0] = notification.newLikeNoti(username);
+                if(notificationFlag == "likePost") content[0] = notification.newLikePostNoti(username);
                 else if(notificationFlag == "comment") content[0] = notification.newCommentNoti(username);
                 else if(notificationFlag == "follow") content[0] = notification.newFollowerNoti(username);
-
+                else if(notificationFlag == "likeComment") content[0] = notification.newLikeComment(username);
                 notificationRepo.addNotification(content[0], makeUserId, postId, ownUserId);
             }
         });

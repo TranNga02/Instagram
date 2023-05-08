@@ -18,20 +18,6 @@ public class PostFeed {
     private String username;
     private String avatar;
 
-    public int getNumberofDays(){
-        // Lấy ngày hiện tại
-        Date currentDate = new Date();
-
-        // Chuyển đổi Timestamp thành Date
-        Date timestampDate = time.toDate();
-
-        // Tính số milliseconds giữa ngày hiện tại và ngày của Timestamp
-        long timeDifferenceInMillis = Math.abs(currentDate.getTime() - timestampDate.getTime());
-
-        // Chuyển đổi số milliseconds thành số ngày
-        return (int) (timeDifferenceInMillis / (24 * 60 * 60 * 1000));
-    }
-
     public boolean isLike(String userId){
         if(this.likes.contains(userId)){
             return true;
