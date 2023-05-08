@@ -29,6 +29,7 @@ import com.example.instagram.viewmodel.FeedViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,6 +71,7 @@ public class DetailPostFragment extends Fragment {
                     if (documentSnapshot.exists()) {
                         postArrayList.add(documentSnapshot.toObject(PostFeed.class));
                         postAdapter.notifyDataSetChanged();
+
                         Log.i("TAG", "find");
 
                     } else {
@@ -89,29 +91,12 @@ public class DetailPostFragment extends Fragment {
                 navController.navigate(R.id.blogFragment, null, navOptions);
             }
         });
+
         return rootView;
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        FeedViewModel feedViewModel = new ViewModelProvider(this).get(FeedViewModel.class);
-//
-//        postArrayList = new ArrayList<>();
-//        postAdapter = new PostAdapterFeed(getContext(), postArrayList);
-//
-//        binding.rvFragmentDetailPost.setAdapter(postAdapter);
-//        binding.rvFragmentDetailPost.setLayoutManager(new LinearLayoutManager(getContext()));
-//        postArrayList.add(post);
-//        feedViewModel.getPosts().observe(getViewLifecycleOwner(), new Observer<ArrayList<PostFeed>>() {
-//            @Override
-//            public void onChanged(ArrayList<PostFeed> postFeeds) {
-//                postArrayList.clear();
-//                postArrayList.addAll(postFeeds);
-//                postAdapter.notifyDataSetChanged();
-//            }
-//        });
-//
-//        feedViewModel.getPostOfCurrentUser();
     }
 }

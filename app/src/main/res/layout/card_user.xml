@@ -30,14 +30,15 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/cardUserImgUserPhoto"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="43dp"
             android:adjustViewBounds="true"
             android:padding="2dp"
             android:scaleType="fitXY"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView"
             app:strokeColor="@color/black"
             app:strokeWidth="2dp"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            app:srcCompat="@drawable/default_user_avatar"
+            />
 
         <TextView
             android:id="@+id/cardUserTxtUserName"
