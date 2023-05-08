@@ -98,6 +98,43 @@ public class PostRepository {
                 });
     }
 
+    public void getPostById(String postId, final PostCallback callback){
+        ArrayList<PostFeed> postArrayList = new ArrayList<>();
+        String userId = FirebaseAuth.getInstance().getUid();
+
+        db.collection("posts").document(postId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                PostFeed post = documentSnapshot.toObject(PostFeed.class);
+                // Lấy thông tin người dùng ứng với userId
+                DocumentReference userDocRef = db.collection("profiles").document(post.getUserId());
+                userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> userTask) {
+                        if (userTask.isSuccessful()) {
+                            DocumentSnapshot userSnapshot = userTask.getResult();
+                            if (userSnapshot.exists()) {
+                                String username = userSnapshot.getString("username");
+                                String avatar = userSnapshot.getString("avatar");
+                                post.setUsername(username);
+                                post.setAvatar(avatar);
+                            } else {
+                                System.out.println("Không tìm thấy dữ liệu người dùng ứng với userId: " + post.getUserId());
+                            }
+                        } else {
+                            System.out.println("Lỗi khi lấy dữ liệu người dùng: " + userTask.getException());
+                        }
+
+                        // Sau khi hoàn thành việc lấy thông tin người dùng, cập nhật dữ liệu vào postArrayList
+                        postArrayList.add(post);
+
+                        callback.onPostsLoaded(postArrayList);
+                    }
+                });
+            }
+        });
+    }
+
     public void updateLikeOfPost(String postId, String userId){
         DocumentReference postRef = db.collection("posts").document(postId);
 

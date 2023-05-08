@@ -29,7 +29,9 @@ import java.util.List;
 public class FeedViewModel extends ViewModel {
     private FirebaseFirestore firestore;
     private MutableLiveData<ArrayList<PostFeed>> posts;
+    private MutableLiveData<ArrayList<PostFeed>> detailPost;
     private PostRepository postRepo;
+    private NotificationViewModel notificationViewModel;
     private CollectionReference postCollectionRef;
 
     public FeedViewModel() {
@@ -54,6 +56,25 @@ public class FeedViewModel extends ViewModel {
         return posts;
     }
 
+    public LiveData<ArrayList<PostFeed>> getDetailPost(){
+        if(detailPost == null){
+            detailPost = new MutableLiveData<>();
+            detailPost.setValue(new ArrayList<>());
+        }
+        return detailPost;
+    }
+
+    public void getPostById(String postId){
+        postRepo.getPostById(postId, new PostRepository.PostCallback(){
+            @Override
+            public void onPostsLoaded(ArrayList<PostFeed> postsList) {
+                if (detailPost != null) {
+                    detailPost.setValue(postsList);
+                }
+            }
+        });
+    }
+
     public void getPostOfCurrentUser(){
         postRepo.getFullPost(new PostRepository.PostCallback() {
             @Override
@@ -65,7 +86,12 @@ public class FeedViewModel extends ViewModel {
         });
     }
 
-    public void updateLikeOfPost(String postId, String userId){
+    public void likePost(String postId, String userId, String postOwnerId){
+        postRepo.updateLikeOfPost(postId, userId);
+        notificationViewModel.addNotification("likePost", userId, postId, postOwnerId);
+    }
+
+    public void removeLikePost(String postId, String userId){
         postRepo.updateLikeOfPost(postId, userId);
     }
 }

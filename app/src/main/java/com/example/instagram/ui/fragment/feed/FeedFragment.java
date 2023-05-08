@@ -50,6 +50,7 @@ public class FeedFragment extends Fragment {
         View rootView = binding.getRoot();
         return rootView;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
