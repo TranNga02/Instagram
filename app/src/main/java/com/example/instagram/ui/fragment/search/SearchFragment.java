@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +49,7 @@ import java.util.Locale;
 public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapterSearch userAdapterSearch;
-    private List<UserProfile> users;
+    private ArrayList<UserProfile> users;
     private TextInputEditText search;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +60,20 @@ public class SearchFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         search = view.findViewById(R.id.frgSearchTxtUserName);
         users = new ArrayList<>();
-        userAdapterSearch = new UserAdapterSearch(getContext(),users);
+        userAdapterSearch = new UserAdapterSearch(getContext(), users, new UserAdapterSearch.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String idUser = users.get(position).getEmail();
+                Bundle bundle = new Bundle();
+                bundle.putString("email", idUser);
+                bundle.putString("idUser", users.get(position).getId());
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setPopUpTo(R.id.searchFragment, true)
+                        .build();
+                navController.navigate(R.id.blogFragment, bundle, navOptions);
+            }
+        });
         recyclerView.setAdapter(userAdapterSearch);
         readUsers();
         search.addTextChangedListener(new TextWatcher() {
@@ -93,6 +109,7 @@ public class SearchFragment extends Fragment {
                             users.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 UserProfile user = document.toObject(UserProfile.class);
+                                user.setId(document.getId());
                                 users.add(user);
                             }
                             userAdapterSearch.notifyDataSetChanged();
@@ -114,8 +131,10 @@ public class SearchFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                 if (task.isSuccessful()) {
+                    users.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         UserProfile user = document.toObject(UserProfile.class); // create a new Post instance using the data from the document
+                        user.setId(document.getId());
                         users.add(user);
                     }
                     userAdapterSearch.notifyDataSetChanged();

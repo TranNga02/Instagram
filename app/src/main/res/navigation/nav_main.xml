@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_blogFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_blogFragment_to_detailPostFragment"
+            app:destination="@id/detailPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/postFragment"
@@ -49,13 +52,18 @@
         android:id="@+id/settingFragment"
         android:name="com.example.instagram.ui.fragment.blog.SettingFragment"
         android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting2" />
+        tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/messageFragment"
         android:name="com.example.instagram.ui.fragment.feed.MessageFragment"
         android:label="fragment_message"
         tools:layout="@layout/fragment_message" />
     <fragment
+        android:id="@+id/detailPostFragment"
+        android:name="com.example.instagram.ui.fragment.blog.DetailPostFragment"
+        android:label="fragment_detail_post"
+        tools:layout="@layout/fragment_detail_post" />
+    fragment
         android:id="@+id/notificationFragment"
         android:name="com.example.instagram.ui.fragment.notification.NotificationFragment"
         android:label="fragment_notification"
