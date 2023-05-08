@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp;
 
 public class Notification {
     private String id;
+    private String makeUserAvatar;
     private String makeUserId;
     private String postId;
     private String ownUserId;
@@ -24,6 +25,14 @@ public class Notification {
 
     public String newFollowerNoti(String userName){
         return  userName + " da theo doi ban.";
+    }
+
+    public String getAvatar() {
+        return makeUserAvatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.makeUserAvatar = avatar;
     }
 
     public String getId() {

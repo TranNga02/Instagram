@@ -33,12 +33,12 @@ public class NotificationViewModel extends ViewModel {
         userId = FirebaseAuth.getInstance().getUid();
 
         // Đăng ký lắng nghe sự kiện trên collection 'notification' trong Firestore
-        notificationCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
-
-            }
-        });
+//        notificationCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
+//                getAllNotifications();
+//            }
+//        });
     }
 
     public LiveData<ArrayList<Notification>> getNotifications(){
@@ -58,7 +58,12 @@ public class NotificationViewModel extends ViewModel {
     }
 
     public void getAllNotifications(){
-
+        notificationRepo.loadNotification(new NotificationRepository.NotificationCallBack() {
+            @Override
+            public void onNotificationsLoaded(ArrayList<Notification> notificationsArray) {
+                notifications.setValue(notificationsArray);
+            }
+        });
     }
 
     public void getUserAvatarById(String userId){

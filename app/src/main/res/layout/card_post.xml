@@ -139,27 +139,15 @@
             android:textSize="18sp"
             android:layout_marginHorizontal="10dp"
             />
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="10dp">
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=" ngày trước"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                />
-        </LinearLayout>
+            android:text="2 ngay truoc"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_marginHorizontal="10dp"
+            />
 
     </LinearLayout>
 

@@ -63,7 +63,7 @@
         android:name="com.example.instagram.ui.fragment.blog.DetailPostFragment"
         android:label="fragment_detail_post"
         tools:layout="@layout/fragment_detail_post" />
-    fragment
+    <fragment
         android:id="@+id/notificationFragment"
         android:name="com.example.instagram.ui.fragment.notification.NotificationFragment"
         android:label="fragment_notification"
