@@ -24,6 +24,7 @@ import com.example.instagram.R;
 import com.example.instagram.ui.activity.MainActivity;
 import com.example.instagram.ui.fragment.feed.CommentsFragment;
 import com.example.instagram.ui.model.PostFeed;
+import com.example.instagram.viewmodel.CaculateTime;
 import com.example.instagram.viewmodel.FeedViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +54,7 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
     public void onBindViewHolder(@NonNull PostAdapterFeed.ViewHolder holder, int position) {
         PostFeed post = postArrayList.get(position);
 
-        holder.tvDate.setText(String.valueOf(post.getNumberofDays()));
+        holder.tvDate.setText(CaculateTime.getInstance().caculateTime(post.getTime()));
         holder.tvLikes.setText(String.valueOf(post.countLikes()));
         holder.tvPostContent.setText(post.getContent());
         holder.tvUsername.setText(post.getUsername());
@@ -85,8 +86,12 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
                 int position = holder.getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION) {
                     FeedViewModel model = new FeedViewModel();
-                    String postId = postArrayList.get(position).getId();
-                    model.updateLikeOfPost(postId, userId);
+                    if(holder.like){
+                        model.removeLikePost(postArrayList.get(position).getId(), userId);
+                    }
+                    else{
+                        model.likePost(postArrayList.get(position).getId(), userId, postArrayList.get(position).getUserId());
+                    }
                 }
             }
         });
