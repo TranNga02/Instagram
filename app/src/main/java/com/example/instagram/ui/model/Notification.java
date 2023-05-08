@@ -10,8 +10,12 @@ public class Notification {
     private String content;
     private Timestamp time;
 
-    public String newLikeNoti(String userName){
+    public String newLikePostNoti(String userName){
         return  userName + " da thich bai viet cua ban.";
+    }
+
+    public String newLikeComment(String userName){
+        return  userName + " da thich binh luan cua ban.";
     }
 
     public String newCommentNoti(String userName){
