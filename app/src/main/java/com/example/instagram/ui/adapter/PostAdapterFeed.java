@@ -86,8 +86,12 @@ public class PostAdapterFeed extends RecyclerView.Adapter<PostAdapterFeed.ViewHo
                 int position = holder.getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION) {
                     FeedViewModel model = new FeedViewModel();
-                    String postId = postArrayList.get(position).getId();
-                    model.updateLikeOfPost(postId, userId);
+                    if(holder.like){
+                        model.removeLikePost(postArrayList.get(position).getId(), userId);
+                    }
+                    else{
+                        model.likePost(postArrayList.get(position).getId(), userId, postArrayList.get(position).getUserId());
+                    }
                 }
             }
         });
