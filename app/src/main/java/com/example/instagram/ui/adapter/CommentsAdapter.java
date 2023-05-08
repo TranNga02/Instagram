@@ -75,7 +75,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 if(position != RecyclerView.NO_POSITION) {
                     CommentViewModel model = new CommentViewModel();
                     String commentId = commentArrayList.get(position).getId();
-                    model.updateLikeOfComment(commentId, userId);
+                    if(holder.like){
+                        model.removeLikeComment(commentId, userId);
+                    }
+                    else{
+                        model.likeComment(commentId, userId, commentArrayList.get(position).getPostId());
+                    }
                 }
             }
         });

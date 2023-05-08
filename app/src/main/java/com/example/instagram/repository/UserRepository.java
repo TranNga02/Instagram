@@ -83,8 +83,28 @@ public class UserRepository {
         });
     }
 
+    public void getUserIdByPostId(String postId, final UserCallback callback){
+        DocumentReference postDocRef = db.collection("posts").document(postId);
+        postDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> postTask) {
+                if (postTask.isSuccessful()) {
+                    DocumentSnapshot postSnapshot = postTask.getResult();
+                    if (postSnapshot.exists()) {
+                        callback.onUserIdLoaded(postSnapshot.getString("userId"));
+                    } else {
+                        System.out.println("Không tìm thấy userId ứng với postId: " + postId);
+                    }
+                } else {
+                    System.out.println("Lỗi khi lấy dữ liệu post: " + postTask.getException());
+                }
+            }
+        });
+    }
+
     public interface UserCallback {
         void onAvatarLoaded(String avatar);
         void onUsernameLoaded(String username);
+        void onUserIdLoaded(String userId);
     }
 }

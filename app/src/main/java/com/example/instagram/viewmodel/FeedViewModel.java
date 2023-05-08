@@ -38,6 +38,7 @@ public class FeedViewModel extends ViewModel {
         postRepo = new PostRepository();
         firestore = FirebaseFirestore.getInstance();
         postCollectionRef = firestore.collection("posts");
+        notificationViewModel = new NotificationViewModel();
 
         // Đăng ký lắng nghe sự kiện trên collection 'post' trong Firestore
         postCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
