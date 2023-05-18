@@ -57,7 +57,11 @@
         android:id="@+id/messageFragment"
         android:name="com.example.instagram.ui.fragment.feed.MessageFragment"
         android:label="fragment_message"
-        tools:layout="@layout/fragment_message" />
+        tools:layout="@layout/fragment_message" >
+        <action
+            android:id="@+id/action_messageFragment_to_detailMessageFragment"
+            app:destination="@id/detailMessageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailPostFragment"
         android:name="com.example.instagram.ui.fragment.blog.DetailPostFragment"
@@ -68,4 +72,9 @@
         android:name="com.example.instagram.ui.fragment.notification.NotificationFragment"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/detailMessageFragment"
+        android:name="com.example.instagram.ui.fragment.feed.DetailMessageFragment"
+        android:label="fragment_detail_message"
+        tools:layout="@layout/fragment_detail_message" />
 </navigation>

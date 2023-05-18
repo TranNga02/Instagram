@@ -34,17 +34,20 @@
                     android:src="@drawable/ic_back"
                     android:background="@color/black"
                     tools:ignore="MissingConstraints" />
+
                 <TextView
                     android:id="@+id/tv_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="username"
                     android:paddingTop="5dp"
+                    android:paddingBottom="20dp"
+                    android:text="username"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="25dp"
-                    android:textAlignment="center"
-                    android:paddingBottom="20dp"
-                    tools:ignore="MissingConstraints" />
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="0dp" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/frgSettingsImgProfilePhoto"

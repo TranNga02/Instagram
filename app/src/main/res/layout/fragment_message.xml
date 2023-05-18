@@ -1,14 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.feed.MessageFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <variable name="MessageFragment"
+            type="com.example.instagram.ui.fragment.feed.MessageFragment" />
+
+        <variable name="userAdapter"
+            type="com.example.instagram.ui.adapter.UserAdapterSearch" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/black"
+        tools:context=".ui.view.fragment.MessageFragment">
+        <ImageButton
+            android:paddingTop="5dp"
+            android:id="@+id/btn_back_message"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_back"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints" />
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tv_username_message"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:text="username"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            app:layout_constraintStart_toEndOf="@+id/btn_back_message"
+            tools:ignore="MissingConstraints"
+            android:paddingTop="5dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_username_message"
+            android:layout_marginHorizontal="10dp"
+            app:startIconDrawable="@drawable/ic_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/frgMessageTxtUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/frg_search_ph_search"
+                android:inputType="text"
+                android:maxLength="25"
+                android:maxLines="1"
+                android:textCursorDrawable="@null"
+                android:textSize="20sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/frgMessageRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adapter="@{userAdapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            app:layout_constraintVertical_bias="0.5"
+            android:layout_marginHorizontal="10dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
