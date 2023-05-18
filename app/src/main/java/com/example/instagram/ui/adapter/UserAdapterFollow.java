@@ -21,12 +21,10 @@ import java.util.List;
 public class UserAdapterFollow extends RecyclerView.Adapter<UserAdapterFollow.UserViewHolder> {
     private Context context;
     private List<UserProfile> users;
-
     public UserAdapterFollow(Context context, List<UserProfile> users) {
         this.context = context;
         this.users = users;
     }
-
     public class UserViewHolder extends RecyclerView.ViewHolder {
         public CardUserBinding binding;
 

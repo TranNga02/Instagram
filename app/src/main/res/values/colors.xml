@@ -282,4 +282,7 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="silver">#333333</color>
+    <color name="Gray_light">#BBBBBB</color>
+
 </resources>
