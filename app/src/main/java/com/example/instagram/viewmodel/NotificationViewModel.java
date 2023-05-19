@@ -75,6 +75,9 @@ public class NotificationViewModel extends ViewModel {
 
             @Override
             public void onUsernameLoaded(String username) {}
+
+            @Override
+            public void onUserIdLoaded(String userId) {}
         });
     }
 
@@ -94,6 +97,9 @@ public class NotificationViewModel extends ViewModel {
                 else if(notificationFlag == "likeComment") content[0] = notification.newLikeComment(username);
                 notificationRepo.addNotification(content[0], makeUserId, postId, ownUserId);
             }
+
+            @Override
+            public void onUserIdLoaded(String userId) {}
         });
     }
 }

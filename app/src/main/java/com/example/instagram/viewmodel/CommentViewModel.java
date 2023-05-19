@@ -81,6 +81,9 @@ public class CommentViewModel extends ViewModel {
 
             @Override
             public void onUsernameLoaded(String username) {}
+
+            @Override
+            public void onUserIdLoaded(String userId) {}
         });
     }
 
@@ -89,7 +92,25 @@ public class CommentViewModel extends ViewModel {
         notificationViewModel.addNotification("comment", userId, postId, postOwnerId);
     }
 
-    public void updateLikeOfComment(String commentId, String userId){
+    public void likeComment(String commentId, String userId, String postId){
+        commentRepo.updateLikeOfComment(commentId, userId);
+        userRepo.getUserIdByPostId(postId, new UserRepository.UserCallback(){
+
+            @Override
+            public void onAvatarLoaded(String avatar) {}
+
+            @Override
+            public void onUsernameLoaded(String username) {}
+
+            @Override
+            public void onUserIdLoaded(String postOwnerId) {
+                notificationViewModel.addNotification("likeComment", userId, postId, postOwnerId);
+            }
+        });
+
+    }
+
+    public void removeLikeComment(String commentId, String userId){
         commentRepo.updateLikeOfComment(commentId, userId);
     }
 }
