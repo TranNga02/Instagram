@@ -27,13 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
-        <ImageView
-            android:id="@+id/btn_notification"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_heart"
-            android:layout_marginHorizontal="20dp"
-            />
 
         <ImageView
             android:id="@+id/btn_message"

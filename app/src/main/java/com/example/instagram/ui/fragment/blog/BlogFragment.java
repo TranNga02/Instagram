@@ -2,6 +2,7 @@ package com.example.instagram.ui.fragment.blog;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +24,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.instagram.R;
+import com.example.instagram.ui.activity.LogInActivity;
 import com.example.instagram.ui.adapter.PostAdapterProfile;
-import com.example.instagram.ui.fragment.setting.SettingFragment;
-import com.example.instagram.ui.model.Post;
 import com.example.instagram.ui.model.PostFeed;
 import com.example.instagram.ui.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,23 +35,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.Serializable;
-import java.net.IDN;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class BlogFragment extends Fragment {
@@ -78,6 +67,7 @@ public class BlogFragment extends Fragment {
         fullname = view.findViewById(R.id.frgProfileLblUserName);
         bio = view.findViewById(R.id.frgProfileLblUserBio);
         setting = view.findViewById(R.id.btn_setting);
+        btnLogOut = view.findViewById(R.id.btn_log_out);
         recyclerViewPost = view.findViewById(R.id.frgProfileRecyclerView);
         recyclerViewPost.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 3);
@@ -117,6 +107,15 @@ public class BlogFragment extends Fragment {
                 }
             }
         });
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getActivity(), LogInActivity.class);
+                startActivity(intent);
+                getActivity().finishAffinity();
+            }
+        });
         Bundle bundle2 = getArguments();
         if (bundle2 != null) {
             emailUser = bundle2.getString("email");
@@ -128,7 +127,7 @@ public class BlogFragment extends Fragment {
 
     ShapeableImageView avatar;
     TextView  txt_post, txt_followers, txt_followings, fullname, bio;
-    Button setting;
+    Button setting, btnLogOut;
     RecyclerView recyclerViewPost;
     FirebaseUser firebaseUser;
     String profileId;
