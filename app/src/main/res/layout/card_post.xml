@@ -41,14 +41,6 @@
                 android:textStyle="bold"
                 android:text="Username"
                 />
-
-            <ImageView
-                android:id="@+id/btn_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_more"
-                />
-
         </LinearLayout>
 
         <ImageView
@@ -79,30 +71,6 @@
                 android:src="@drawable/ic_comment"
                 android:layout_marginHorizontal="20dp"
                 />
-
-            <ImageView
-                android:id="@+id/btn_share"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_message"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end"
-                >
-
-                <ImageView
-                    android:id="@+id/btn_save_to_collection"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_save_to_collection"
-                    />
-
-            </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout

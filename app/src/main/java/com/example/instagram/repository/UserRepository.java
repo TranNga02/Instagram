@@ -1,24 +1,33 @@
 package com.example.instagram.repository;
 
+import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
-import com.example.instagram.ui.model.Comment;
-import com.example.instagram.ui.model.PostFeed;
-import com.example.instagram.ui.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executor;
 
 public class UserRepository {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -100,6 +109,75 @@ public class UserRepository {
                 }
             }
         });
+    }
+
+    public Task<Boolean> signUp(String email, String password, String fullname, String username){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        TaskCompletionSource<Boolean> signUpResult = new TaskCompletionSource<>();
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("DEBUG", "createUserWithEmail:success");
+                        System.out.println("//////////////////////////Sign up success");
+                        String uid = mAuth.getCurrentUser().getUid();
+
+                        addNewProfile(uid, email, fullname, username);
+                        signUpResult.setResult(true);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w("DEBUG", "createUserWithEmail:failure", task.getException());
+                        System.out.println("////////////////////////Sign up fail");
+                        signUpResult.setResult(false);
+                    }
+                });
+        return signUpResult.getTask();
+
+    }
+
+    public void addNewProfile(String id, String email, String fullname, String username) {
+        DocumentReference profileRef = db.collection("profiles").document(id);
+
+        Map<String, Object> profileData = new HashMap<>();
+        profileData.put("avatar", "");
+        profileData.put("bio", "");
+        profileData.put("birthday", "");
+        profileData.put("email", email);
+        profileData.put("followed", Arrays.asList());
+        profileData.put("follower", Arrays.asList());
+        profileData.put("likes", Arrays.asList());
+        profileData.put("fullname", fullname);
+        profileData.put("username", username);
+        profileData.put("gender", "");
+        profileData.put("linkFB", "");
+
+        profileRef.set(profileData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Document added successfully
+                        Log.d("TAG", "Profile document added with ID: " + id);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to add document
+                        Log.e("TAG", "Error adding profile document", e);
+                    }
+                });
+    }
+
+    public Task<Boolean> sendMail(String emailAddress){
+        TaskCompletionSource<Boolean> sendMailResult = new TaskCompletionSource<>();
+        FirebaseAuth.getInstance().sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        sendMailResult.setResult(true);
+                    } else {
+                        sendMailResult.setResult(false);
+                    }
+                });
+        return sendMailResult.getTask();
     }
 
     public interface UserCallback {

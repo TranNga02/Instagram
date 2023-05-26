@@ -9,7 +9,14 @@
         android:id="@+id/logInFragment"
         android:name="com.example.instagram.ui.fragment.login.LogInFragment"
         android:label="fragment_log_in"
-        tools:layout="@layout/fragment_log_in" />
+        tools:layout="@layout/fragment_log_in" >
+        <action
+            android:id="@+id/action_logInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_logInFragment_to_fogotPasswordFragment"
+            app:destination="@id/fogotPasswordFragment" />
+    </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.example.instagram.ui.fragment.login.WelcomeFragment"
@@ -19,4 +26,14 @@
             android:id="@+id/action_welcomeFragment_to_logInFragment"
             app:destination="@id/logInFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.instagram.ui.fragment.login.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/fogotPasswordFragment"
+        android:name="com.example.instagram.ui.fragment.login.FogotPasswordFragment"
+        android:label="fragment_fogot_password"
+        tools:layout="@layout/fragment_fogot_password" />
 </navigation>

@@ -24,8 +24,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp">
+                android:layout_margin="16dp">
 
                 <ImageButton
                     android:id="@+id/btn_back"
@@ -71,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Remove photo"
+                    android:cursorVisible="true"
                     android:textColor="@color/md_red_400"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -121,38 +121,46 @@
                 android:id="@+id/textInputLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                app:hintTextColor="@color/black">
+                android:hint="Name"
+                android:layout_margin="16dp"
+                app:hintTextColor="@color/gray"
+                android:background="@null"
+                android:textColorHint="@color/gray"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/frgSettingsTxtUserFullName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:maxLines="1"
-                    android:textCursorDrawable="@null" />
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/gray"
+                    android:textSize="18sp"
+                    android:background="@drawable/comment_border"
+                    />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                app:hintTextColor="@color/black">
+                android:hint="Bio"
+                android:layout_margin="16dp"
+                app:hintTextColor="@color/gray"
+                android:background="@null"
+                android:textColorHint="@color/gray"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/frgSettingsTxtUserBio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Bio"
-                    android:inputType="text"
-                    android:maxLength="250"
-                    android:maxLines="1"
-                    android:textCursorDrawable="@null" />
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/gray"
+                    android:textSize="18sp"
+                    android:background="@drawable/comment_border"
+                    />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -160,7 +168,7 @@
                 style="@style/ButtonBlue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
+                android:layout_margin="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:text="Save" />
